@@ -15,7 +15,7 @@ const episodes = data.episodes;
 <div class="container mx-auto px-4 py-8">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="md:col-span-1">
-            <Card>
+            <Card transition:name={`card-${movie.slug}`}>
                 <CardContent className="p-0">
                     <Image
                             loading="eager"
@@ -24,6 +24,7 @@ const episodes = data.episodes;
                             width={500}
                             height={750}
                             class="w-full h-auto rounded-t-lg"
+                            transition:name={`image-${movie.slug}`}
                     />
                 </CardContent>
             </Card>
@@ -31,14 +32,16 @@ const episodes = data.episodes;
         <div class="md:col-span-2">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-3xl font-bold">{movie.name}</CardTitle>
-                    <CardDescription><span class="font-semibold">Tên gốc:</span> {movie.origin_name}</CardDescription>
+                    <CardTitle className="text-3xl font-bold" transition:name={`title-${movie.slug}`}>{movie.name}</CardTitle>
+                    <CardDescription transition:name={`original-name-${movie.slug}`}>
+                        <span class="font-semibold">Tên gốc:</span> {movie.origin_name}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div class="flex items-center">
                             <Calendar className="mr-2 h-4 w-4"/>
-                            <span>{movie.year}</span>
+                            <span transition:name={`year-${movie.slug}`}>{movie.year}</span>
                         </div>
                         <div class="flex items-center">
                             <Clock className="mr-2 h-4 w-4"/>
@@ -52,29 +55,22 @@ const episodes = data.episodes;
                             <Film className="mr-2 h-4 w-4"/>
                             <span>{movie.episode_current}/{movie.episode_total} tập</span>
                         </div>
-
                         <div class="flex items-center">
                             <Star className="mr-2 h-4 w-4"/>
                             <p>Rating: {movie.tmdb.vote_average}/10 ({movie.tmdb.vote_count} votes)</p>
                         </div>
-
-
                         <div class="flex items-center">
                             <Film className="mr-2 h-4 w-4"/>
-                            <p> {movie.status}</p>
+                            <p>{movie.status}</p>
                         </div>
-
                         <div class="flex items-center">
                             <Proportions className="mr-2 h-4 w-4"/>
                             <span>{movie.quality}</span>
                         </div>
-
                         <div class="flex items-center">
                             <Captions className="mr-2 h-4 w-4"/>
                             <span>{movie.lang}</span>
                         </div>
-
-
                     </div>
                     <Separator className="my-4"/>
                     <div class="space-y-2">

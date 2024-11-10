@@ -3,9 +3,9 @@ interface Props {
     title: string;
 }
 import SearchForm from '@/components/SearchForm';
-
 const {title} = Astro.props;
 import {Home} from "lucide-react"
+import {ViewTransitions} from 'astro:transitions';
 ---
 
 <!doctype html>
@@ -16,6 +16,7 @@ import {Home} from "lucide-react"
     <meta name="viewport" content="width=device-width"/>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="generator" content={Astro.generator}/>
+    <ViewTransitions />
     <title>{title}</title>
 </head>
 <body>
@@ -35,7 +36,7 @@ import {Home} from "lucide-react"
         <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
             <div class="w-full flex-1 md:w-auto md:flex-none">
                 {/* You can add a search input or other elements here if needed */}
-                <SearchForm client:load/>
+                <SearchForm client:idle/>
             </div>
         </div>
     </div>

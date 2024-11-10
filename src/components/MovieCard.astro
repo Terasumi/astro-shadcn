@@ -1,8 +1,8 @@
 ---
-import {Image} from 'astro:assets';
-import {Card, CardContent, CardFooter} from "@/components/ui/card"
-import {Badge} from "@/components/ui/badge"
-import {type Modify} from "../types";
+import { Image } from 'astro:assets';
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { type Modify } from "../types";
 
 interface Props {
     index: number
@@ -22,14 +22,16 @@ const {
     image,
     year,
     modified
-
 } = Astro.props;
-import {format} from 'date-fns';
+
+import { format } from 'date-fns';
 ---
 
 <a href={`/phim/${slug}`} class="group">
     <Card
-            className="overflow-hidden transition-transform duration-300 ease-in-out group-hover:scale-105">
+            className="overflow-hidden transition-transform duration-300 ease-in-out group-hover:scale-105"
+            transition:name={`card-${slug}`}
+    >
         <div class="relative aspect-[2/3]">
             <Image
                     src={`//wsrv.nl/?url=${image}&w=300&h=450&output=webp`}
@@ -38,27 +40,45 @@ import {format} from 'date-fns';
                     loading={index === 0 ? 'eager' : 'lazy'}
                     height={450}
                     class="object-cover w-full h-full"
-
+                    transition:name={`image-${slug}`}
             />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                <h2 class="text-white text-lg font-semibold line-clamp-2">{name}</h2>
+            <div
+                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4"
+            >
+                <h2
+                        class="text-white text-lg font-semibold line-clamp-2"
+                        transition:name={`title-${slug}`}
+                >
+                    {name}
+                </h2>
             </div>
         </div>
         <CardContent className="p-4">
-            <p class="text-sm">{original_name}</p>
+            <p
+                    class="text-sm"
+                    transition:name={`original-name-${slug}`}
+            >
+                {original_name}
+            </p>
         </CardContent>
         <CardFooter className="p-4 pt-0 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <span class="text-sm text-muted-foreground">
-            {format(new Date(modified.time), 'dd/MM/yyyy')}
-            </span>
+                <span
+                        class="text-sm text-muted-foreground"
+                        transition:name={`date-${slug}`}
+                >
+                    {format(new Date(modified.time), 'dd/MM/yyyy')}
+                </span>
             </div>
             <div class="flex items-center space-x-2">
-                <Badge variant="secondary" className="text-xs font-medium">
+                <Badge
+                        variant="secondary"
+                        className="text-xs font-medium"
+                        transition:name={`year-${slug}`}
+                >
                     {year}
                 </Badge>
             </div>
         </CardFooter>
-
     </Card>
 </a>
