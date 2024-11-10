@@ -1,0 +1,107 @@
+---
+import {Star, Calendar, Clock, Eye, Film, Captions, Proportions} from 'lucide-react'
+import {Badge} from "@/components/ui/badge"
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
+import {Separator} from "@/components/ui/separator"
+import EpisodeSelector from './EpisodeSelector.tsx';
+import VideoPlayer from './VideoPlayer.tsx';
+import {Image} from 'astro:assets';
+
+const {data} = Astro.props;
+const movie = data.movie;
+const episodes = data.episodes;
+---
+
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="md:col-span-1">
+            <Card>
+                <CardContent className="p-0">
+                    <Image
+                            loading="eager"
+                            src={`//wsrv.nl/?url=${movie.poster_url}&w=300&h=450&output=webp`}
+                            alt={movie.name}
+                            width={500}
+                            height={750}
+                            class="w-full h-auto rounded-t-lg"
+                    />
+                </CardContent>
+            </Card>
+        </div>
+        <div class="md:col-span-2">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-3xl font-bold">{movie.name}</CardTitle>
+                    <CardDescription><span class="font-semibold">Tên gốc:</span> {movie.origin_name}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="flex items-center">
+                            <Calendar className="mr-2 h-4 w-4"/>
+                            <span>{movie.year}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <Clock className="mr-2 h-4 w-4"/>
+                            <span>{movie.time}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <Eye className="mr-2 h-4 w-4"/>
+                            <span>{movie.view} Lượt view</span>
+                        </div>
+                        <div class="flex items-center">
+                            <Film className="mr-2 h-4 w-4"/>
+                            <span>{movie.episode_current}/{movie.episode_total} tập</span>
+                        </div>
+
+                        <div class="flex items-center">
+                            <Star className="mr-2 h-4 w-4"/>
+                            <p>Rating: {movie.tmdb.vote_average}/10 ({movie.tmdb.vote_count} votes)</p>
+                        </div>
+
+
+                        <div class="flex items-center">
+                            <Film className="mr-2 h-4 w-4"/>
+                            <p> {movie.status}</p>
+                        </div>
+
+                        <div class="flex items-center">
+                            <Proportions className="mr-2 h-4 w-4"/>
+                            <span>{movie.quality}</span>
+                        </div>
+
+                        <div class="flex items-center">
+                            <Captions className="mr-2 h-4 w-4"/>
+                            <span>{movie.lang}</span>
+                        </div>
+
+
+                    </div>
+                    <Separator className="my-4"/>
+                    <div class="space-y-2">
+                        <p><strong>Tóm tắt nội dung:</strong> {movie.content}</p>
+                        <div class="flex flex-wrap gap-2">
+                            <strong class="w-full">Thể loại:</strong>
+                            {movie.category.map((cat: { name: string }) => (
+                                    <Badge variant="outline">{cat.name}</Badge>
+                            ))}
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <strong class="w-full">Quốc gia:</strong>
+                            {movie.country.map((country: { name: string }) => (
+                                    <Badge variant="outline">{country.name}</Badge>
+                            ))}
+                        </div>
+                        <p><strong>Đạo diễn:</strong> {movie.director.join(', ')}</p>
+                        <p><strong>Diễn viên:</strong> {movie.actor.join(', ')}</p>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {episodes.length > 0 && (
+                    <EpisodeSelector client:load episodes={episodes}/>
+            )}
+        </div>
+    </div>
+
+    <VideoPlayer client:load/>
+</div>

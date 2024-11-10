@@ -1,50 +1,48 @@
 ---
 interface Props {
-	title: string;
+    title: string;
 }
+import SearchForm from '@/components/SearchForm';
 
-const { title } = Astro.props;
+const {title} = Astro.props;
+import {Home} from "lucide-react"
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Astro description"/>
+    <meta name="viewport" content="width=device-width"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="generator" content={Astro.generator}/>
+    <title>{title}</title>
+</head>
+<body>
+<nav class="border-b">
+    <div class="container flex h-16 items-center px-4">
+        <div class="mr-4 md:flex">
+            <a href="/" class="mr-6 flex items-center space-x-2">
+				<span class="hidden font-bold sm:inline-block">
+				  Astro Flims
+				</span>
+            </a>
+            <a href="/" class="flex items-center text-sm font-medium text-muted-foreground">
+                <Home className="mr-2 h-4 w-4"/>
+                Trang chủ
+            </a>
+        </div>
+        <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+            <div class="w-full flex-1 md:w-auto md:flex-none">
+                {/* You can add a search input or other elements here if needed */}
+                <SearchForm client:load/>
+            </div>
+        </div>
+    </div>
+</nav>
+<slot/>
+<footer class="w-full flex items-center justify-center py-3">
+    Trang web được làm với mục đích học tập, không có mục đích thương mại
+</footer>
+</body>
 </html>
-<style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-</style>

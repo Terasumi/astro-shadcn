@@ -1,0 +1,477 @@
+{
+  "status": "success",
+  "msg": "",
+  "data": {
+    "seoOnPage": {
+      "og_type": "website",
+      "titleHead": "Phim lẻ | Phim lẻ hay tuyển chọn | Phim lẻ mới nhất 2024",
+      "descriptionHead": "Phim lẻ mới nhất tuyển chọn chất lượng cao, phim lẻ mới nhất 2024 vietsub cập nhật nhanh nhất. Phim lẻ vietsub nhanh nhất",
+      "og_image": [
+        "/upload/vod/20231019-1/23cb1a5351b176c8f708b871d934055b.jpg",
+        "/upload/vod/20241110-1/2b7dcda759fd3c989bebef417292504f.jpg",
+        "/upload/vod/20241109-1/a8d5f6a6b3e04b3e3db511f15ac151f2.jpg",
+        "/upload/vod/20241109-1/ab91cf6b6630f8334bbb0f98d58071b3.jpg",
+        "/upload/vod/20241109-1/2967eabc2e333e0437a53ea5ad8a46c9.jpg",
+        "/upload/vod/20231212-1/1b22d2a54d32cae00e51448a00b0dc0d.jpg",
+        "/upload/vod/20241108-1/736082bb264bfec3cca93d6f29809941.jpg",
+        "/upload/vod/20241108-1/0ef1313fbf8d0099baebf6619e438308.jpg",
+        "/upload/vod/20241108-1/69706b6c2010701186de041766a4d81d.jpg",
+        "/upload/vod/20241108-1/bd1bd1b12a77f1189c115dd742a4b244.jpg"
+      ],
+      "og_url": "danh-sach/phim-le"
+    },
+    "breadCrumb": [
+      {
+        "name": "Phim Lẻ",
+        "slug": "/danh-sach/phim-le",
+        "isCurrent": false,
+        "position": 2
+      },
+      {
+        "name": "Trang 1",
+        "isCurrent": true,
+        "position": 3
+      }
+    ],
+    "titlePage": "Phim Lẻ",
+    "items": [
+      {
+        "modified": {
+          "time": "2024-11-10T17:07:24.000Z"
+        },
+        "_id": "cdf1e288ca02272e717c9d5e4cb180bd",
+        "name": "Gã Điên Báo Thù",
+        "slug": "ga-dien-bao-thu",
+        "origin_name": "Wrath Of Man",
+        "type": "single",
+        "poster_url": "upload/vod/20231019-1/23cb1a5351b176c8f708b871d934055b.jpg",
+        "thumb_url": "upload/vod/20231019-1/36ec5f59af35ff8830dfc0df27c12b8f.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "119 phút",
+        "episode_current": "Full",
+        "quality": "HD",
+        "lang": "Vietsub + Thuyết Minh",
+        "year": 2021,
+        "category": [
+          {
+            "id": "7a035ac0b37f5854f0f6979260899c90",
+            "name": "Hình Sự",
+            "slug": "hinh-su"
+          },
+          {
+            "id": "a7b065b92ad356387ef2e075dee66529",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          },
+          {
+            "id": "9822be111d2ccc29c7172c78b8af8ff5",
+            "name": "Hành Động",
+            "slug": "hanh-dong"
+          }
+        ],
+        "country": [
+          {
+            "id": "932bbaca386ee0436ad0159117eabae4",
+            "name": "Anh",
+            "slug": "anh"
+          },
+          {
+            "id": "74d9fa92f4dea9ecea8fc2233dc7921a",
+            "name": "Âu Mỹ",
+            "slug": "au-my"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-10T02:27:47.000Z"
+        },
+        "_id": "ec390e445f99f5d8c57a847f02552fbc",
+        "name": "Diệt Môn Thảm Án 2",
+        "slug": "diet-mon-tham-an-2",
+        "origin_name": "Daughter Of Darkness 2",
+        "type": "single",
+        "poster_url": "upload/vod/20241110-1/2b7dcda759fd3c989bebef417292504f.jpg",
+        "thumb_url": "upload/vod/20241110-1/8f291cc616489bfdd14fcee76408ef86.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "97 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 1994,
+        "category": [
+          {
+            "id": "ba6fd52e5a3aca80eaaf1a3b50a182db",
+            "name": "Hài Hước",
+            "slug": "hai-huoc"
+          },
+          {
+            "id": "7a035ac0b37f5854f0f6979260899c90",
+            "name": "Hình Sự",
+            "slug": "hinh-su"
+          },
+          {
+            "id": "a7b065b92ad356387ef2e075dee66529",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          },
+          {
+            "id": "4db8d7d4b9873981e3eeb76d02997d58",
+            "name": "Kinh Dị",
+            "slug": "kinh-di"
+          }
+        ],
+        "country": [
+          {
+            "id": "a0cd53c9875b96640ac264ca81996f9f",
+            "name": "Hồng Kông",
+            "slug": "hong-kong"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-09T23:04:19.000Z"
+        },
+        "_id": "6e99ed46f817de00fa66a0650286d735",
+        "name": "Cười 2",
+        "slug": "cuoi-2",
+        "origin_name": "Smile 2",
+        "type": "single",
+        "poster_url": "upload/vod/20241109-1/a8d5f6a6b3e04b3e3db511f15ac151f2.jpg",
+        "thumb_url": "upload/vod/20241109-1/350c66465aa00bd060e1ac247b076021.jpg",
+        "sub_docquyen": false,
+        "chieurap": true,
+        "time": "127 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2024,
+        "category": [
+          {
+            "id": "4db8d7d4b9873981e3eeb76d02997d58",
+            "name": "Kinh Dị",
+            "slug": "kinh-di"
+          },
+          {
+            "id": "2fb53017b3be83cd754a08adab3e916c",
+            "name": "Bí Ẩn",
+            "slug": "bi-an"
+          }
+        ],
+        "country": [
+          {
+            "id": "74d9fa92f4dea9ecea8fc2233dc7921a",
+            "name": "Âu Mỹ",
+            "slug": "au-my"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-09T17:20:53.000Z"
+        },
+        "_id": "cc5e82c68af96ec8554ac4ae9cea008d",
+        "name": "Chờ Người Nơi Pháo Hoa Rực Rỡ",
+        "slug": "cho-nguoi-noi-phao-hoa-ruc-ro",
+        "origin_name": "A Balloon's Landing",
+        "type": "single",
+        "poster_url": "upload/vod/20241109-1/ab91cf6b6630f8334bbb0f98d58071b3.jpg",
+        "thumb_url": "upload/vod/20241109-1/5223050570ff9a6c2d07246ce5cd789e.jpg",
+        "sub_docquyen": false,
+        "chieurap": true,
+        "time": "101 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2024,
+        "category": [
+          {
+            "id": "37a7b38b6184a5ebd3c43015aa20709d",
+            "name": "Chính Kịch",
+            "slug": "chinh-kich"
+          },
+          {
+            "id": "46a6df48b64935df845cf8ad4f448d4c",
+            "name": "Tình Cảm",
+            "slug": "tinh-cam"
+          },
+          {
+            "id": "1a18f0d42e4e66060dbf1fd7cb25d11a",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          }
+        ],
+        "country": [
+          {
+            "id": "af5f08b6445ca1def86fdd38cc1dc0b2",
+            "name": "Đài Loan",
+            "slug": "dai-loan"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-09T07:35:29.000Z"
+        },
+        "_id": "23f1d15c461a87be388777aef426538a",
+        "name": "Kẻ Cướp Tình Yêu",
+        "slug": "ke-cuop-tinh-yeu",
+        "origin_name": "Amor Bandido",
+        "type": "single",
+        "poster_url": "upload/vod/20241109-1/2967eabc2e333e0437a53ea5ad8a46c9.jpg",
+        "thumb_url": "upload/vod/20241109-1/24f3495e3fcee9bf33d31a9611c82192.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "80 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2021,
+        "category": [
+          {
+            "id": "a7b065b92ad356387ef2e075dee66529",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          },
+          {
+            "id": "bb2b4b030608ca5984c8dd0770f5b40b",
+            "name": "Tình Cảm",
+            "slug": "tinh-cam"
+          },
+          {
+            "id": "37a7b38b6184a5ebd3c43015aa20709d",
+            "name": "Chính Kịch",
+            "slug": "chinh-kich"
+          }
+        ],
+        "country": [
+          {
+            "id": "3536be57ce0713954e454ae6c53ec023",
+            "name": "Argentina",
+            "slug": "argentina"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-09T07:34:20.000Z"
+        },
+        "_id": "c974b58d1b0df79a20503c23e67cea69",
+        "name": "Tuổi Dậy Thì",
+        "slug": "tuoi-day-thi",
+        "origin_name": "Ken Park",
+        "type": "single",
+        "poster_url": "upload/vod/20231212-1/1b22d2a54d32cae00e51448a00b0dc0d.jpg",
+        "thumb_url": "upload/vod/20231212-1/e14a7b42d315a6d39462f1b045340b3f.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "97 phút",
+        "episode_current": "Full",
+        "quality": "HD",
+        "lang": "Vietsub",
+        "year": 2002,
+        "category": [
+          {
+            "id": "567b3bb10249a15899418397df72b7cb",
+            "name": "Chính Kịch",
+            "slug": "chinh-kich"
+          }
+        ],
+        "country": [
+          {
+            "id": "74d9fa92f4dea9ecea8fc2233dc7921a",
+            "name": "Âu Mỹ",
+            "slug": "au-my"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-08T18:00:42.000Z"
+        },
+        "_id": "8371d58a2140475594cb7a1c22f0baaa",
+        "name": "Một Mình Vẫn Ổn",
+        "slug": "mot-minh-van-on",
+        "origin_name": "Single In Seoul",
+        "type": "single",
+        "poster_url": "upload/vod/20241108-1/736082bb264bfec3cca93d6f29809941.jpg",
+        "thumb_url": "upload/vod/20241108-1/204507269abd3a694a22f4eaeba37e72.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "103 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2023,
+        "category": [
+          {
+            "id": "bb2b4b030608ca5984c8dd0770f5b40b",
+            "name": "Tình Cảm",
+            "slug": "tinh-cam"
+          },
+          {
+            "id": "ba6fd52e5a3aca80eaaf1a3b50a182db",
+            "name": "Hài Hước",
+            "slug": "hai-huoc"
+          },
+          {
+            "id": "1a18f0d42e4e66060dbf1fd7cb25d11a",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          }
+        ],
+        "country": [
+          {
+            "id": "05de95be5fc404da9680bbb3dd8262e6",
+            "name": "Hàn Quốc",
+            "slug": "han-quoc"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-08T14:09:35.000Z"
+        },
+        "_id": "976f1ecb676aa1bb3bb86ed84e79cdfa",
+        "name": "Bí Mật Trang Trại Nho",
+        "slug": "bi-mat-trang-trai-nho",
+        "origin_name": "Wineville",
+        "type": "single",
+        "poster_url": "upload/vod/20241108-1/0ef1313fbf8d0099baebf6619e438308.jpg",
+        "thumb_url": "upload/vod/20241108-1/556e8341d4bb5ce967ca922b681a1df2.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "100 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2023,
+        "category": [
+          {
+            "id": "4db8d7d4b9873981e3eeb76d02997d58",
+            "name": "Kinh Dị",
+            "slug": "kinh-di"
+          },
+          {
+            "id": "a7b065b92ad356387ef2e075dee66529",
+            "name": "Tâm Lý",
+            "slug": "tam-ly"
+          }
+        ],
+        "country": [
+          {
+            "id": "af5c50bf625c1da71838678a5cf37189",
+            "name": "Âu Mỹ",
+            "slug": "au-my"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-08T14:09:24.000Z"
+        },
+        "_id": "7fc7b7979ce9c02bb7a36e5500726053",
+        "name": "Hẹn Hò Với Ông Già Tuyết",
+        "slug": "hen-ho-voi-ong-gia-tuyet",
+        "origin_name": "Dating Santa",
+        "type": "single",
+        "poster_url": "upload/vod/20241108-1/69706b6c2010701186de041766a4d81d.jpg",
+        "thumb_url": "upload/vod/20241108-1/1a848de99a21dbec9eefc9a11c0db3d0.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "98 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2023,
+        "category": [
+          {
+            "id": "37a7b38b6184a5ebd3c43015aa20709d",
+            "name": "Chính Kịch",
+            "slug": "chinh-kich"
+          },
+          {
+            "id": "ba6fd52e5a3aca80eaaf1a3b50a182db",
+            "name": "Hài Hước",
+            "slug": "hai-huoc"
+          },
+          {
+            "id": "bb2b4b030608ca5984c8dd0770f5b40b",
+            "name": "Tình Cảm",
+            "slug": "tinh-cam"
+          }
+        ],
+        "country": [
+          {
+            "id": "8dbb07a18d46f63d8b3c8994d5ccc351",
+            "name": "Mexico",
+            "slug": "mexico"
+          }
+        ]
+      },
+      {
+        "modified": {
+          "time": "2024-11-08T14:09:15.000Z"
+        },
+        "_id": "40e058330f014c529b23bcb157f7da4a",
+        "name": "Hẹn Gặp Giáng Sinh Sau",
+        "slug": "hen-gap-giang-sinh-sau",
+        "origin_name": "Meet Me Next Christmas",
+        "type": "single",
+        "poster_url": "upload/vod/20241108-1/bd1bd1b12a77f1189c115dd742a4b244.jpg",
+        "thumb_url": "upload/vod/20241108-1/994a2df1ff31fb4565bccbf5b05d0bd8.jpg",
+        "sub_docquyen": false,
+        "chieurap": false,
+        "time": "105 phút",
+        "episode_current": "Full",
+        "quality": "FHD",
+        "lang": "Vietsub",
+        "year": 2024,
+        "category": [
+          {
+            "id": "bb2b4b030608ca5984c8dd0770f5b40b",
+            "name": "Tình Cảm",
+            "slug": "tinh-cam"
+          },
+          {
+            "id": "ba6fd52e5a3aca80eaaf1a3b50a182db",
+            "name": "Hài Hước",
+            "slug": "hai-huoc"
+          }
+        ],
+        "country": [
+          {
+            "id": "af5c50bf625c1da71838678a5cf37189",
+            "name": "Âu Mỹ",
+            "slug": "au-my"
+          }
+        ]
+      }
+    ],
+    "params": {
+      "type_slug": "danh-sach",
+      "filterCategory": [
+        ""
+      ],
+      "filterCountry": [
+        ""
+      ],
+      "filterYear": "",
+      "filterType": "",
+      "sortField": "modified.time",
+      "sortType": "desc",
+      "pagination": {
+        "totalItems": 13067,
+        "totalItemsPerPage": 10,
+        "currentPage": 1,
+        "totalPages": 1307
+      }
+    },
+    "type_list": "phim-le",
+    "APP_DOMAIN_FRONTEND": "https://phimapi.com",
+    "APP_DOMAIN_CDN_IMAGE": "https://phimimg.com"
+  }
+}

@@ -1,0 +1,17 @@
+---
+import '@/styles/globals.css'
+import Layout from "../../layouts/Layout.astro";
+import SearchMovieGrid from "../../components/SearchMovieGrid.astro";
+const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
+---
+
+<Layout title="Tìm kiếm">
+    <main>
+        <div class="flex flex-col items-center mt-2">
+            <!-- Movies Grid -->
+            <div class="mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-20">
+                <SearchMovieGrid api={PUBLIC_PHIM_MOI}/>
+            </div>
+        </div>
+    </main>
+</Layout>

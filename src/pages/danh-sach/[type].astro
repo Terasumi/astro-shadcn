@@ -1,0 +1,75 @@
+---
+import type {DanhSachResponse} from "./type";
+const {type,} = Astro.params;
+import '@/styles/globals.css'
+import Layout from "../../layouts/Layout.astro";
+import type {Item} from "../../types";
+import {
+    Pagination, PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious
+} from "../../components/ui/pagination";
+import MovieCard from "../../components/MovieCard.astro";
+import MovieGrid from "../../components/MovieGrid.astro";
+const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
+const page: number | string = Astro.url.searchParams.get('page') || 1;
+const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`);
+const data: DanhSachResponse = await response.json();
+const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
+const movies = data.data.items;
+---
+
+<Layout title={type || "Danh sách phim"}>
+    <main>
+        <div class="flex flex-col items-center mt-2">
+            <!-- Movies Grid -->
+            <div class="mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-20">
+                <section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+                    <div class="container mx-auto px-4 py-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                            {movies.map((item: Item, index: number) => (
+                                    <MovieCard
+                                            index={index}
+                                            slug={item.slug}
+                                            name={item.name}
+                                            image={`${APP_DOMAIN_CDN_IMAGE}/${item.thumb_url}`}
+                                            original_name={item.origin_name}
+                                            modified={item.modified}
+                                            year={item.year.toString()}
+                                    />
+                            ))}
+                        </div>
+
+                        <div class="mt-8">
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious href={`?page=${Number(page) - 1}`}/>
+                                    </PaginationItem>
+
+                                    <PaginationItem>
+                                        <PaginationLink isActive={true}
+                                                        href={`?page=${Number(page)}`}>{Number(page)}</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink
+                                                href={`?page=${Number(page) + 1}`}>{Number(page) + 1}</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationLink
+                                                href={`?page=${Number(page) + 2}`}>{Number(page) + 2}</PaginationLink>
+                                    </PaginationItem>
+                                    <PaginationItem>
+                                        <PaginationNext href={`?page=${Number(page) + 1}`}/>
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</Layout>

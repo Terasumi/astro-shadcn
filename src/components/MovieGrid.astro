@@ -1,0 +1,68 @@
+---
+// import MovieCard from "./MovieCard";
+import type {Item, ResponseFlimType} from "../types";
+import MovieCard from "./MovieCard.astro";
+const page: number | string = Astro.url.searchParams.get('page') || 1;
+
+const {
+    api,
+} = Astro.props;
+
+const response = await fetch(`${api}/danh-sach/phim-moi-cap-nhat?page=${page}`);
+const data: ResponseFlimType = await response.json();
+const movies = data.items;
+const firstMovieImage = movies.length > 0 ? movies[0].thumb_url : '';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
+---
+<head>
+    {firstMovieImage &&
+            <link rel="preload" as="image" href={`//wsrv.nl/?url=${firstMovieImage}&w=300&h=450&output=webp`}/>}
+</head>
+
+<section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {movies.map((item: Item, index: number) => (
+                    <MovieCard
+                            index={index}
+                            slug={item.slug}
+                            name={item.name}
+                            image={item.thumb_url}
+                            original_name={item.origin_name}
+                            modified={item.modified}
+                            year={item.year.toString()}
+                    />
+            ))}
+        </div>
+
+        <div class="mt-8">
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious href={`?page=${Number(page) - 1}`}/>
+                    </PaginationItem>
+
+                    <PaginationItem>
+                        <PaginationLink isActive={true} href={`?page=${Number(page)}`}>{Number(page)}</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href={`?page=${Number(page) + 1}`}>{Number(page) + 1}</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationLink href={`?page=${Number(page) + 2}`}>{Number(page) + 2}</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationNext href={`?page=${Number(page) + 1}`}/>
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import type {Item, ResponseFlimType} from "../types";
+import MovieCard from "./MovieCard.astro";
+
+const {api} = Astro.props;
+const {keyword} = Astro.params;
+const response = await fetch(`${api}/v1/api/tim-kiem?keyword=${keyword}&limit=${100}`);
+const data: any = await response.json();
+const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
+const movies = data.data.items;
+---
+
+<section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {movies.map((item: Item, index: number) => (
+                    <MovieCard
+                            index={index}
+                            slug={item.slug}
+                            name={item.name}
+                            image={`${APP_DOMAIN_CDN_IMAGE}/${item.thumb_url}`}
+                            original_name={item.origin_name}
+                            modified={item.modified}
+                            year={item.year.toString()}
+                    />
+            ))}
+        </div>
+    </div>
+</section>

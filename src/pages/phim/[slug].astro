@@ -1,0 +1,15 @@
+---
+import {type MovieDetail, type MovieResponseDetail} from "../../types";
+import MovieDetailPage from "../../components/MovieDetailPage.astro";
+import Layout from "../../layouts/Layout.astro";
+const {slug,} = Astro.params;
+import '@/styles/globals.css'
+const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
+const response = await fetch(`${PUBLIC_PHIM_MOI}/phim/${slug}`);
+const data: MovieResponseDetail = await response.json();
+---
+<Layout title="Chi tiet">
+    <div>
+        <MovieDetailPage data={data}/>
+    </div>
+</Layout>
