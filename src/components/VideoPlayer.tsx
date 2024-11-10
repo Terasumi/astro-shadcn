@@ -23,7 +23,7 @@ const VideoPlayer: React.FC = () => {
     }, []);
 
     return (
-        <div ref={videoSectionRef} className="container mx-auto px-36 mt-8">
+        <div ref={videoSectionRef} className="container mx-auto px-0 md:px-36 mt-8">
             <AspectRatio ratio={16 / 9} className="border-2 border-gray-300 shadow-lg rounded-lg">
                 {selectedEpisode && (
                     <iframe
