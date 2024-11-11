@@ -34,6 +34,7 @@ export default defineConfig({
           isr: {
               // caches all pages on first request and saves for 1 day
               expiration: 60 * 60 * 24,
+              exclude: ['/'], // Loại trừ trang chủ khỏi ISR
           },
       }
   ),
