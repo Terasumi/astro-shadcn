@@ -1,0 +1,28 @@
+---
+import {Button} from "@/components/ui/button"
+import {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter} from "@/components/ui/card"
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Page Not Found">
+    <main class="flex items-center justify-center h-screen bg-background">
+        <Card className="w-[420px]">
+            <CardHeader>
+                <CardTitle className="text-2xl">404 - Không tìm thấy trang</CardTitle>
+                <CardDescription>Chúng tôi không tìm thấy trang mà bạn muốn.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p class="text-muted-foreground">
+                    Trang bạn đang tìm kiếm có thể đã bị xóa hoặc không tồn tại.
+                </p>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+                <Button client:load>
+                    <a href="/">
+                        Trở về trang chủ
+                    </a>
+                </Button>
+            </CardFooter>
+        </Card>
+    </main>
+</Layout>

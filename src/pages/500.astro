@@ -1,0 +1,40 @@
+---
+interface Props {
+    error: unknown
+}
+
+const {error} = Astro.props
+import {Button} from "@/components/ui/button"
+import {Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter} from "@/components/ui/card"
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="404 - Page Not Found">
+    <main class="flex items-center justify-center h-screen bg-background">
+        <Card className="w-[420px]">
+            <CardHeader>
+                <CardTitle className="text-2xl">500 - Lỗi Server</CardTitle>
+                <CardDescription>Đã có lỗi không mong muốn xảy ra.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p class="text-muted-foreground">
+                    Nếu bạn là người dùng vui lòng liên hệ quản trị viên để được hỗ trợ.
+                </p>
+                <p>
+                    <strong>
+                        Lỗi:
+                    </strong>
+                    <i class="text-red-600">
+                        {error}
+                    </i>
+                </p>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+                <Button client:load>
+                    <a href="/">
+                        Trở về trang chủ
+                    </a>
+                </Button>
+            </CardFooter>
+        </Card>
+    </main>
+</Layout>

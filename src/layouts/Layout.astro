@@ -6,6 +6,9 @@ import SearchForm from '@/components/SearchForm';
 const {title} = Astro.props;
 import {Home} from "lucide-react"
 import {ViewTransitions} from 'astro:transitions';
+import ProgressBar from 'astro-vtbot/components/ProgressBar.astro';
+
+import '@/styles/globals.css'
 ---
 
 <!doctype html>
@@ -16,17 +19,18 @@ import {ViewTransitions} from 'astro:transitions';
     <meta name="viewport" content="width=device-width"/>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="generator" content={Astro.generator}/>
-    <ViewTransitions />
     <title>{title}</title>
+    <ViewTransitions/>
+    <ProgressBar/>
 </head>
 <body>
 <nav class="border-b">
     <div class="container flex h-16 items-center px-4">
         <div class="mr-4 md:flex">
-            <a href="/" class="mr-6 flex items-center space-x-2">
-				<span class="hidden font-bold sm:inline-block">
-				  Astro Flims
-				</span>
+            <a href="/" class="mr-6 flex items-center space-x-2" aria-label="Astro Flims Home">
+              <span class="hidden font-bold sm:inline-block">
+                Astro Flims
+              </span>
             </a>
             <a href="/" class="flex items-center text-sm font-medium text-muted-foreground">
                 <Home className="mr-2 h-4 w-4"/>
