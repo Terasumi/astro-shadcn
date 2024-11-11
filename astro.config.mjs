@@ -26,5 +26,15 @@ export default defineConfig({
   },
 
   output: "server",
-  adapter: vercel(),
+  adapter: vercel(
+      {
+          webAnalytics: {
+              enabled: true,
+          },
+          isr: {
+              // caches all pages on first request and saves for 1 day
+              expiration: 60 * 60 * 24,
+          },
+      }
+  ),
 });
