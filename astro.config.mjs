@@ -7,9 +7,9 @@ import tailwind from '@astrojs/tailwind';
 
 import vercel from '@astrojs/vercel/serverless';
 
-import node from '@astrojs/node';
+// import node from '@astrojs/node';
 
-import vtbot from 'astro-vtbot';
+// import vtbot from 'astro-vtbot';
 
 // https://astro.build/config
 export default defineConfig({
