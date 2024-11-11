@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /danh-sach/
+Allow: /phim/
+Allow: /tim-kiem/
+
+# Disallow access to example.json file
+Disallow: /danh-sach/example.json
+
+# Sitemap
+
+# Crawl-delay
+Crawl-delay: 10
