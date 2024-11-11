@@ -12,11 +12,12 @@ import {
 } from "@/components/ui/pagination";
 import MovieCard from "@/components/MovieCard.astro";
 const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
-const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${1}&limit=10`);
+const { page } = Astro.params;
+const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`);
 const data: DanhSachResponse = await response.json();
 const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
 const movies = data.data.items;
-const currentPage = Number(1);
+const currentPage = Number(page);
 const totalPages = data.data.params.pagination.totalPages; // Giả sử API trả về tổng số trang
 function getPageUrl(pageNum: number) {
     if (pageNum === 1) return `/danh-sach/${type}/`;

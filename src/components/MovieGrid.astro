@@ -1,15 +1,15 @@
 ---
-// import MovieCard from "./MovieCard";
 import type {Item, ResponseFlimType} from "../types";
 import MovieCard from "./MovieCard.astro";
-const page: number | string = Astro.url.searchParams.get('page') || 1;
 
 const {
     api,
+    page = 1,
 } = Astro.props;
 
 const response = await fetch(`${api}/danh-sach/phim-moi-cap-nhat?page=${page}`);
 const data: ResponseFlimType = await response.json();
+
 const movies = data.items;
 const firstMovieImage = movies.length > 0 ? movies[0].thumb_url : '';
 import {
@@ -20,6 +20,13 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+const currentPage = Number(page);
+const totalPages = data.pagination.totalPages; // Giả sử API trả về tổng số trang
+
+function getPageUrl(pageNum: number) {
+    if (pageNum === 1) return '/';
+    return `/${pageNum}`;
+}
 ---
 <head>
     {firstMovieImage &&
@@ -45,22 +52,33 @@ import {
         <div class="mt-8">
             <Pagination>
                 <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious href={`?page=${Number(page) - 1}`}/>
-                    </PaginationItem>
+                    {currentPage > 1 && (
+                            <PaginationItem>
+                                <PaginationPrevious href={getPageUrl(currentPage - 1)}/>
+                            </PaginationItem>
+                    )}
 
                     <PaginationItem>
-                        <PaginationLink isActive={true} href={`?page=${Number(page)}`}>{Number(page)}</PaginationLink>
+                        <PaginationLink isActive={true} href={getPageUrl(currentPage)}>{currentPage}</PaginationLink>
                     </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href={`?page=${Number(page) + 1}`}>{Number(page) + 1}</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationLink href={`?page=${Number(page) + 2}`}>{Number(page) + 2}</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationNext href={`?page=${Number(page) + 1}`}/>
-                    </PaginationItem>
+
+                    {currentPage < totalPages && (
+                            <PaginationItem>
+                                <PaginationLink href={getPageUrl(currentPage + 1)}>{currentPage + 1}</PaginationLink>
+                            </PaginationItem>
+                    )}
+
+                    {currentPage < totalPages - 1 && (
+                            <PaginationItem>
+                                <PaginationLink href={getPageUrl(currentPage + 2)}>{currentPage + 2}</PaginationLink>
+                            </PaginationItem>
+                    )}
+
+                    {currentPage < totalPages && (
+                            <PaginationItem>
+                                <PaginationNext href={getPageUrl(currentPage + 1)}/>
+                            </PaginationItem>
+                    )}
                 </PaginationContent>
             </Pagination>
         </div>
