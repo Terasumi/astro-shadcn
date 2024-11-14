@@ -13,7 +13,13 @@ import {
 import MovieCard from "@/components/MovieCard.astro";
 const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
 const {page} = Astro.params;
-const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`);
+const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`,
+    {
+        cache: "force-cache",
+        headers: {
+            'Cache-Control': `max-age=${3600*24}, s-maxage=${3600*24}, stale-while-revalidate=${86400}`,
+        },
+    });
 const data: DanhSachResponse = await response.json();
 const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
 const movies = data.data.items;

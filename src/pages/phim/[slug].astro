@@ -5,7 +5,13 @@ import Layout from "../../layouts/Layout.astro";
 const {slug,} = Astro.params;
 import '@/styles/globals.css'
 const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
-const response = await fetch(`${PUBLIC_PHIM_MOI}/phim/${slug}`);
+const response = await fetch(`${PUBLIC_PHIM_MOI}/phim/${slug}`,
+    {
+        cache: "force-cache",
+        headers: {
+            'Cache-Control': `max-age=${3600*24}, s-maxage=${3600*24}, stale-while-revalidate=${86400}`,
+        },
+    });
 const data: MovieResponseDetail = await response.json();
 ---
 <Layout title="Chi tiet">

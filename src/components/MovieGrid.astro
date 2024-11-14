@@ -7,7 +7,13 @@ const {
     page = 1,
 } = Astro.props;
 
-const response = await fetch(`${api}/danh-sach/phim-moi-cap-nhat?page=${page}`);
+const response = await fetch(`${api}/danh-sach/phim-moi-cap-nhat?page=${page}`,
+    {
+        cache: "force-cache",
+        headers: {
+            'Cache-Control': `max-age=${3600*24}, s-maxage=${3600*24}, stale-while-revalidate=${86400}`,
+        },
+    });
 const data: ResponseFlimType = await response.json();
 
 const movies = data.items;
