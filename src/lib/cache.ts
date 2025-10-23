@@ -6,16 +6,16 @@ export interface CacheConfig {
 
 export const CACHE_CONFIGS = {
   SECTION_DATA: {
-    maxAge: 7200, // 2 hours
-    staleWhileRevalidate: 86400, // 24 hours
-  },
-  MOVIE_DETAIL: {
     maxAge: 14400, // 4 hours
     staleWhileRevalidate: 86400, // 24 hours
   },
+  MOVIE_DETAIL: {
+    maxAge: 28800, // 8 hours
+    staleWhileRevalidate: 172800, // 48 hours
+  },
   SEARCH_RESULTS: {
-    maxAge: 3600, // 1 hour
-    staleWhileRevalidate: 7200, // 2 hours
+    maxAge: 7200, // 2 hours
+    staleWhileRevalidate: 14400, // 4 hours
   }
 } as const;
 

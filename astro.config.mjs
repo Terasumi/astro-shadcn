@@ -43,10 +43,11 @@ export default defineConfig({
             },
             // Enable edge middleware for better performance
             edgeMiddleware: true,
-            // Optimize ISR caching
+            // Optimize ISR caching - longer cache for better performance
             isr: {
-                // caches all pages on first request and saves for 6 hours
-                expiration: 60 * 60 * 6,
+                // caches all pages on first request and saves for 12 hours
+                expiration: 60 * 60 * 12,
+
                 // exclude: ['/'], // Loại trừ trang chủ khỏi ISR
             },
             // Enable Vercel Image Optimization API

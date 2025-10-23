@@ -1,10 +1,7 @@
 ---
 import HeroMovie from "@/components/HeroMovie.astro";
 import Layout from "../layouts/Layout.astro";
-import PhimBoSection from "@/components/ui/sections/PhimBoSection.astro";
-import PhimLeSection from "@/components/ui/sections/PhimLeSection.astro";
-import TvShowsSection from "@/components/ui/sections/TvShowsSection.astro";
-import HoatHinhSection from "@/components/ui/sections/HoatHinhSection.astro";
+import BatchedHomeSections from "@/components/ui/sections/BatchedHomeSections.astro";
 ---
 
 <Layout title="AstroFlim Prime">
@@ -12,67 +9,7 @@ import HoatHinhSection from "@/components/ui/sections/HoatHinhSection.astro";
         <!-- Hero Movie Section -->
         <HeroMovie />
 
-        <!-- Comprehensive Movie List Sections with Server Islands -->
-        <div class="mx-auto flex w-full flex-col gap-16 px-12 pb-28">
-            <!-- Streaming sections with server:defer for better performance -->
-            <PhimBoSection server:defer>
-                <div slot="fallback" class="animate-pulse">
-                    <div class="h-8 w-48 bg-gray-700 rounded mb-2"></div>
-                    <div class="h-4 w-64 bg-gray-600 rounded mb-6"></div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                    </div>
-                </div>
-            </PhimBoSection>
-
-            <PhimLeSection server:defer>
-                <div slot="fallback" class="animate-pulse">
-                    <div class="h-8 w-48 bg-gray-700 rounded mb-2"></div>
-                    <div class="h-4 w-64 bg-gray-600 rounded mb-6"></div>
-                    <div
-                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
-                    >
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                        <div class="aspect-[2/3] bg-gray-700 rounded"></div>
-                    </div>
-                </div>
-            </PhimLeSection>
-
-            <TvShowsSection server:defer>
-                <div slot="fallback" class="animate-pulse">
-                    <div class="h-8 w-48 bg-gray-700 rounded mb-2"></div>
-                    <div class="h-4 w-64 bg-gray-600 rounded mb-6"></div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                    </div>
-                </div>
-            </TvShowsSection>
-
-            <HoatHinhSection server:defer>
-                <div slot="fallback" class="animate-pulse">
-                    <div class="h-8 w-48 bg-gray-700 rounded mb-2"></div>
-                    <div class="h-4 w-64 bg-gray-600 rounded mb-6"></div>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                        <div class="aspect-[16/9] bg-gray-700 rounded"></div>
-                    </div>
-                </div>
-            </HoatHinhSection>
-        </div>
+        <!-- Batched Movie List Sections - All sections fetched in one request -->
+        <BatchedHomeSections />
     </main>
 </Layout>

@@ -43,7 +43,12 @@ export const onRequest = defineMiddleware(async ({ request, locals }, next) => {
 
     // Cache headers for API routes
     if (url.pathname.startsWith('/api/')) {
-      response.headers.set('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
+      response.headers.set('Cache-Control', 'public, max-age=7200, stale-while-revalidate=86400');
+    }
+    
+    // Cache headers for server islands
+    if (url.pathname.includes('/_server-islands/')) {
+      response.headers.set('Cache-Control', 'public, max-age=14400, stale-while-revalidate=86400');
     }
 
     return response;
