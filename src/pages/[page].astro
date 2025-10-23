@@ -1,8 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 import MovieGrid from "../components/MovieGrid.astro";
-import MovieTypeSelector from '../components/MovieTypeSelector';
-const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
+import MovieTypeSelector from "../components/MovieTypeSelector";
+import { getSecret } from "astro:env/server";
+const PUBLIC_PHIM_MOI = getSecret("PUBLIC_PHIM_MOI");
 const { page } = Astro.params;
 ---
 
@@ -10,15 +11,17 @@ const { page } = Astro.params;
     <main>
         <section class="mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-20">
             <div class="container mx-auto px-4 mt-8">
-                <h2 class="text-3xl font-bold text-center mb-6">Khám phá theo thể loại</h2>
-                <MovieTypeSelector client:idle/>
+                <h2 class="text-3xl font-bold text-center mb-6">
+                    Khám phá theo thể loại
+                </h2>
+                <MovieTypeSelector client:idle />
             </div>
         </section>
 
         <div class="flex flex-col items-center mt-2">
             <!-- Movies Grid -->
             <div class="mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-20">
-                <MovieGrid api={PUBLIC_PHIM_MOI} page={page}/>
+                <MovieGrid api={PUBLIC_PHIM_MOI} page={page} />
             </div>
         </div>
     </main>

@@ -1,23 +1,22 @@
 ---
-import type {Item, ResponseFlimType} from "../types";
+import type { Item, ResponseFlimType } from "../types";
 import MovieCard from "./MovieCard.astro";
 
-const {
-    api,
-    page = 1,
-} = Astro.props;
+const { api, page = 1 } = Astro.props;
 
-const response = await fetch(`${api}/danh-sach/phim-moi-cap-nhat?page=${page}`,
+const response = await fetch(
+    `${api}/danh-sach/phim-moi-cap-nhat?page=${page}`,
     {
         cache: "force-cache",
         headers: {
-            'Cache-Control': `max-age=${3600*24}, s-maxage=${3600*24}, stale-while-revalidate=${86400}`,
+            "Cache-Control": `max-age=${3600 * 24}, s-maxage=${3600 * 24}, stale-while-revalidate=${86400}`,
         },
-    });
+    },
+);
 const data: ResponseFlimType = await response.json();
 
 const movies = data.items;
-const firstMovieImage = movies.length > 0 ? movies[0].thumb_url : '';
+const firstMovieImage = movies.length > 0 ? movies[0].thumb_url : "";
 import {
     Pagination,
     PaginationContent,
@@ -25,66 +24,100 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 const currentPage = Number(page);
 const totalPages = data.pagination.totalPages; // Giả sử API trả về tổng số trang
 
 function getPageUrl(pageNum: number) {
-    if (pageNum === 1) return '/';
+    if (pageNum === 1) return "/";
     return `/${pageNum}`;
 }
 ---
+
 <head>
-    {firstMovieImage &&
-            <link rel="preload" as="image" href={`//wsrv.nl/?url=${firstMovieImage}&w=300&h=450&output=webp`}/>}
+    {
+        firstMovieImage && (
+            <link
+                rel="preload"
+                as="image"
+                href={`//wsrv.nl/?url=${firstMovieImage}&w=300&h=450&output=webp`}
+            />
+        )
+    }
 </head>
 
 <section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
     <div class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {movies.map((item: Item, index: number) => (
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6"
+        >
+            {
+                movies.map((item: Item, index: number) => (
                     <MovieCard
-                            index={index}
-                            slug={item.slug}
-                            name={item.name}
-                            image={item.poster_url}
-                            original_name={item.origin_name}
-                            modified={item.modified}
-                            year={item.year.toString()}
+                        index={index}
+                        slug={item.slug}
+                        name={item.name}
+                        image={item.poster_url}
+                        year={item.year.toString()}
                     />
-            ))}
+                ))
+            }
         </div>
 
         <div class="mt-8">
             <Pagination>
                 <PaginationContent>
-                    {currentPage > 1 && (
+                    {
+                        currentPage > 1 && (
                             <PaginationItem>
-                                <PaginationPrevious href={getPageUrl(currentPage - 1)}/>
+                                <PaginationPrevious
+                                    href={getPageUrl(currentPage - 1)}
+                                />
                             </PaginationItem>
-                    )}
+                        )
+                    }
 
                     <PaginationItem>
-                        <PaginationLink isActive={true} href={getPageUrl(currentPage)}>{currentPage}</PaginationLink>
+                        <PaginationLink
+                            isActive={true}
+                            href={getPageUrl(currentPage)}
+                            >{currentPage}</PaginationLink
+                        >
                     </PaginationItem>
 
-                    {currentPage < totalPages && (
+                    {
+                        currentPage < totalPages && (
                             <PaginationItem>
-                                <PaginationLink href={getPageUrl(currentPage + 1)}>{currentPage + 1}</PaginationLink>
+                                <PaginationLink
+                                    href={getPageUrl(currentPage + 1)}
+                                >
+                                    {currentPage + 1}
+                                </PaginationLink>
                             </PaginationItem>
-                    )}
+                        )
+                    }
 
-                    {currentPage < totalPages - 1 && (
+                    {
+                        currentPage < totalPages - 1 && (
                             <PaginationItem>
-                                <PaginationLink href={getPageUrl(currentPage + 2)}>{currentPage + 2}</PaginationLink>
+                                <PaginationLink
+                                    href={getPageUrl(currentPage + 2)}
+                                >
+                                    {currentPage + 2}
+                                </PaginationLink>
                             </PaginationItem>
-                    )}
+                        )
+                    }
 
-                    {currentPage < totalPages && (
+                    {
+                        currentPage < totalPages && (
                             <PaginationItem>
-                                <PaginationNext href={getPageUrl(currentPage + 1)}/>
+                                <PaginationNext
+                                    href={getPageUrl(currentPage + 1)}
+                                />
                             </PaginationItem>
-                    )}
+                        )
+                    }
                 </PaginationContent>
             </Pagination>
         </div>

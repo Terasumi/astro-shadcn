@@ -1,103 +1,221 @@
 ---
-import {Star, Calendar, Clock, Eye, Film, Captions, Proportions} from 'lucide-react'
-import {Badge} from "@/components/ui/badge"
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
-import {Separator} from "@/components/ui/separator"
-import EpisodeSelector from './EpisodeSelector.tsx';
-import VideoPlayer from './VideoPlayer.tsx';
-import {Image} from 'astro:assets';
+import {
+    Star,
+    Calendar,
+    Clock,
+    Eye,
+    Film,
+    Captions,
+    Proportions,
+    Play,
+    Share2,
+    ThumbsUp,
+    ThumbsDown,
+    Plus,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import EpisodeSelector from "./EpisodeSelector";
+import VideoPlayer from "./VideoPlayer";
+import { Image } from "astro:assets";
 
-const {data} = Astro.props;
+const { data, slug: routeSlug } = Astro.props;
 const movie = data.movie;
+const slug = routeSlug ?? movie.slug;
 const episodes = data.episodes;
+const viewFormatter = new Intl.NumberFormat("vi-VN");
 ---
 
-<div class="container mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="md:col-span-1">
-            <Card transition:name={`card-${movie.slug}`}>
-                <CardContent className="p-0">
-                    <Image
+<div class="container mx-auto px-4 py-10 space-y-10">
+    <section
+        class="relative isolate overflow-hidden rounded-3xl bg-slate-950 text-slate-50 shadow-2xl"
+    >
+        <div class="absolute inset-0">
+            <Image
+                loading="eager"
+                src={`//wsrv.nl/?url=${movie.thumb_url ?? movie.poster_url}&w=1200&h=675&output=webp`}
+                alt={movie.name}
+                width={1600}
+                height={900}
+                class="h-full w-full object-cover"
+            />
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-900/20"
+                aria-hidden="true"
+            >
+            </div>
+        </div>
+        <div
+            class="relative z-10 flex flex-col gap-8 px-6 py-12 md:flex-row md:px-12"
+        >
+            <div class="md:w-2/3 space-y-6">
+                <div class="space-y-2">
+                    <p
+                        class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-300"
+                    >
+                        {movie.episode_total > 1 ? "Series" : "Movie"}
+                    </p>
+                    <h1 class="text-3xl font-bold tracking-tight md:text-5xl">
+                        {movie.name}
+                    </h1>
+                    <p class="text-slate-300">
+                        {movie.origin_name}
+                    </p>
+                </div>
+
+                <div
+                    class="flex flex-wrap items-center gap-3 text-sm text-slate-200/90"
+                >
+                    <span class="flex items-center gap-2"
+                        ><Calendar className="h-4 w-4" />{movie.year}</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Clock className="h-4 w-4" />{movie.time}</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Film className="h-4 w-4" />{movie.episode_current}/{
+                            movie.episode_total
+                        } tập</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Proportions className="h-4 w-4" />{
+                            movie.quality
+                        }</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Captions className="h-4 w-4" />{movie.lang}</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Eye className="h-4 w-4" />{
+                            viewFormatter.format(Number(movie.view) || 0)
+                        } lượt xem</span
+                    >
+                    <span class="flex items-center gap-2"
+                        ><Star className="h-4 w-4 text-yellow-300" />{
+                            movie.tmdb.vote_average
+                        } / 10</span
+                    >
+                </div>
+
+                <p class="max-w-2xl text-base leading-relaxed text-slate-200">
+                    {movie.content}
+                </p>
+
+                <div class="flex flex-wrap gap-2">
+                    {
+                        movie.category.map((cat: { name: string }) => (
+                            <Badge variant="secondary">{cat.name}</Badge>
+                        ))
+                    }
+                    {
+                        movie.country.map((country: { name: string }) => (
+                            <Badge
+                                variant="outline"
+                                className="border-slate-700 bg-slate-900/60 text-slate-200"
+                            >
+                                {country.name}
+                            </Badge>
+                        ))
+                    }
+                </div>
+
+                <div class="flex flex-col gap-3 text-sm text-slate-200">
+                    <span
+                        ><strong class="text-slate-100">Đạo diễn:</strong>
+                        {
+                            movie.director.length
+                                ? movie.director.join(", ")
+                                : "Đang cập nhật"
+                        }</span
+                    >
+                    <span
+                        ><strong class="text-slate-100">Diễn viên:</strong>
+                        {
+                            movie.actor.length
+                                ? movie.actor.join(", ")
+                                : "Đang cập nhật"
+                        }</span
+                    >
+                    <span
+                        ><strong class="text-slate-100">Tình trạng:</strong>
+                        {movie.status}</span
+                    >
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4">
+                    <Button
+                        size="lg"
+                        className="gap-2 rounded-full bg-slate-50 text-slate-900 hover:bg-white"
+                    >
+                        <Play className="h-4 w-4" /> Xem ngay
+                    </Button>
+                    <div class="flex flex-wrap gap-3 text-slate-200/80">
+                        <button
+                            class="flex items-center gap-2 rounded-full border border-slate-700/80 px-4 py-2 text-sm backdrop-blur-sm transition hover:border-slate-500"
+                        >
+                            <Plus className="h-4 w-4" /> Thêm
+                        </button>
+                        <button
+                            class="flex items-center gap-2 rounded-full border border-slate-700/80 px-4 py-2 text-sm backdrop-blur-sm transition hover:border-slate-500"
+                        >
+                            <ThumbsUp className="h-4 w-4" /> Thích
+                        </button>
+                        <button
+                            class="flex items-center gap-2 rounded-full border border-slate-700/80 px-4 py-2 text-sm backdrop-blur-sm transition hover:border-slate-500"
+                        >
+                            <ThumbsDown className="h-4 w-4" /> Không thích
+                        </button>
+                        <button
+                            class="flex items-center gap-2 rounded-full border border-slate-700/80 px-4 py-2 text-sm backdrop-blur-sm transition hover:border-slate-500"
+                        >
+                            <Share2 className="h-4 w-4" /> Chia sẻ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mx-auto w-full max-w-xs md:mx-0 md:w-auto">
+                <Card
+                    className="overflow-hidden rounded-3xl border-slate-800/60 bg-slate-900/70 shadow-xl"
+                >
+                    <CardContent className="p-0">
+                        <Image
                             loading="eager"
-                            src={`//wsrv.nl/?url=${movie.poster_url}&w=300&h=450&output=webp`}
+                            src={`//wsrv.nl/?url=${movie.poster_url}&w=400&h=600&output=webp`}
                             alt={movie.name}
                             width={500}
                             height={750}
-                            class="w-full h-auto rounded-t-lg"
-                            transition:name={`image-${movie.slug}`}
-                    />
-                </CardContent>
-            </Card>
+                            transition:name={`image-${slug}`}
+                            class="h-full w-full object-cover"
+                        />
+                    </CardContent>
+                </Card>
+            </div>
         </div>
-        <div class="md:col-span-2">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-3xl font-bold" transition:name={`title-${movie.slug}`}>{movie.name}</CardTitle>
-                    <CardDescription transition:name={`original-name-${movie.slug}`}>
-                        <span class="font-semibold">Tên gốc:</span> {movie.origin_name}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="flex items-center">
-                            <Calendar className="mr-2 h-4 w-4"/>
-                            <span transition:name={`year-${movie.slug}`}>{movie.year}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <Clock className="mr-2 h-4 w-4"/>
-                            <span>{movie.time}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <Eye className="mr-2 h-4 w-4"/>
-                            <span>{movie.view} Lượt view</span>
-                        </div>
-                        <div class="flex items-center">
-                            <Film className="mr-2 h-4 w-4"/>
-                            <span>{movie.episode_current}/{movie.episode_total} tập</span>
-                        </div>
-                        <div class="flex items-center">
-                            <Star className="mr-2 h-4 w-4"/>
-                            <p>Rating: {movie.tmdb.vote_average}/10 ({movie.tmdb.vote_count} votes)</p>
-                        </div>
-                        <div class="flex items-center">
-                            <Film className="mr-2 h-4 w-4"/>
-                            <p>{movie.status}</p>
-                        </div>
-                        <div class="flex items-center">
-                            <Proportions className="mr-2 h-4 w-4"/>
-                            <span>{movie.quality}</span>
-                        </div>
-                        <div class="flex items-center">
-                            <Captions className="mr-2 h-4 w-4"/>
-                            <span>{movie.lang}</span>
-                        </div>
-                    </div>
-                    <Separator className="my-4"/>
-                    <div class="space-y-2">
-                        <p><strong>Tóm tắt nội dung:</strong> {movie.content}</p>
-                        <div class="flex flex-wrap gap-2">
-                            <strong class="w-full">Thể loại:</strong>
-                            {movie.category.map((cat: { name: string }) => (
-                                    <Badge variant="outline">{cat.name}</Badge>
-                            ))}
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <strong class="w-full">Quốc gia:</strong>
-                            {movie.country.map((country: { name: string }) => (
-                                    <Badge variant="outline">{country.name}</Badge>
-                            ))}
-                        </div>
-                        <p><strong>Đạo diễn:</strong> {movie.director.join(', ')}</p>
-                        <p><strong>Diễn viên:</strong> {movie.actor.join(', ')}</p>
-                    </div>
-                </CardContent>
-            </Card>
+    </section>
+    <section class="space-y-6">
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-slate-50">Chọn tập</h2>
+            <Separator className="bg-slate-800" />
+            {
+                episodes.length > 0 ? (
+                    <EpisodeSelector client:load episodes={episodes} />
+                ) : (
+                    <p class="text-slate-400">
+                        Hiện chưa có tập nào được cập nhật.
+                    </p>
+                )
+            }
+        </section>
 
-            {episodes.length > 0 && (
-                    <EpisodeSelector client:load episodes={episodes}/>
-            )}
-        </div>
-    </div>
-
-    <VideoPlayer client:load/>
+        <section class="space-y-6">
+            <h2 class="text-xl font-semibold text-slate-50">
+                Xem Trailer / Tập
+            </h2>
+            <Separator className="bg-slate-800" />
+            <VideoPlayer client:load />
+        </section>
+    </section>
 </div>

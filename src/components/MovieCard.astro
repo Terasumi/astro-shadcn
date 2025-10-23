@@ -1,84 +1,42 @@
 ---
-import { Image } from 'astro:assets';
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { type Modify } from "../types";
-
+import { Image } from "astro:assets";
+import { Card } from "@/components/ui/card";
 interface Props {
-    index: number
-    slug: string
-    name: string
-    original_name: string
-    year: string
-    image: string
-    modified: Modify
+    index: number;
+    slug: string;
+    name: string;
+    year: string;
+    image: string;
 }
 
-const {
-    index,
-    slug,
-    name,
-    original_name,
-    image,
-    year,
-    modified
-} = Astro.props;
-
-import { format } from 'date-fns';
+const { index, slug, name, image, year } = Astro.props;
 ---
 
-<a href={`/phim/${slug}`} class="group">
+<a href={`/phim/${slug}`} class="group" data-astro-prefetch="hover">
     <Card
-            className="overflow-hidden transition-transform duration-300 ease-in-out group-hover:scale-105"
-            transition:name={`card-${slug}`}
+        className="overflow-hidden border border-transparent bg-slate-900/60 transition-all duration-300 ease-in-out group-hover:ring-4 group-hover:ring-slate-700/50 shadow-lg hover:shadow-2xl"
     >
         <div class="relative aspect-[2/3]">
             <Image
-                    src={`//wsrv.nl/?url=${image}&w=300&h=450&output=webp`}
-                    alt={name}
-                    width={300}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    height={450}
-                    class="object-cover w-full h-full"
-                    transition:name={`image-${slug}`}
+                src={`//wsrv.nl/?url=${image}&w=300&h=450&output=webp`}
+                alt={name}
+                width={300}
+                loading={index === 0 ? "eager" : "lazy"}
+                height={450}
+                transition:name={`image-${slug}`}
+                class="object-cover w-full h-full"
             />
-            <div
-                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4"
-            >
-                <h2
-                        class="text-white text-lg font-semibold line-clamp-2"
-                        transition:name={`title-${slug}`}
-                >
-                    {name}
-                </h2>
-            </div>
         </div>
-        <CardContent className="p-4">
-            <p
-                    class="text-sm"
-                    transition:name={`original-name-${slug}`}
+        <div class="space-y-1 px-4 py-3">
+            <h2
+                class="text-base font-semibold text-white line-clamp-1"
+                transition:name={`title-${slug}`}
             >
-                {original_name}
+                {name}
+            </h2>
+            <p class="text-sm text-slate-300">
+                {year}
             </p>
-        </CardContent>
-        <CardFooter className="p-4 pt-0 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <span
-                        class="text-sm text-muted-foreground"
-                        transition:name={`date-${slug}`}
-                >
-                    {format(new Date(modified.time), 'dd/MM/yyyy')}
-                </span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <Badge
-                        variant="secondary"
-                        className="text-xs font-medium"
-                        transition:name={`year-${slug}`}
-                >
-                    {year}
-                </Badge>
-            </div>
-        </CardFooter>
+        </div>
     </Card>
 </a>

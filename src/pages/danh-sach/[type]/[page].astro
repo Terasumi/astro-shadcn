@@ -1,25 +1,29 @@
 ---
-import type {DanhSachResponse} from "../type";
-const {type,} = Astro.params;
+import type { DanhSachResponse } from "../type";
+const { type } = Astro.params;
 import Layout from "@/layouts/Layout.astro";
-import type {Item} from "@/types";
+import type { Item } from "@/types";
 import {
-    Pagination, PaginationContent,
+    Pagination,
+    PaginationContent,
     PaginationItem,
     PaginationLink,
     PaginationNext,
-    PaginationPrevious
+    PaginationPrevious,
 } from "@/components/ui/pagination";
 import MovieCard from "@/components/MovieCard.astro";
-const PUBLIC_PHIM_MOI = import.meta.env.PUBLIC_PHIM_MOI;
-const {page} = Astro.params;
-const response = await fetch(`${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`,
+import { getSecret } from "astro:env/server";
+const PUBLIC_PHIM_MOI = getSecret("PUBLIC_PHIM_MOI");
+const { page } = Astro.params;
+const response = await fetch(
+    `${PUBLIC_PHIM_MOI}/v1/api/danh-sach/${type}?page=${page}&limit=10`,
     {
         cache: "force-cache",
         headers: {
-            'Cache-Control': `max-age=${3600*24}, s-maxage=${3600*24}, stale-while-revalidate=${86400}`,
+            "Cache-Control": `max-age=${3600 * 24}, s-maxage=${3600 * 24}, stale-while-revalidate=${86400}`,
         },
-    });
+    },
+);
 const data: DanhSachResponse = await response.json();
 const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
 const movies = data.data.items;
@@ -36,55 +40,88 @@ function getPageUrl(pageNum: number) {
         <div class="flex flex-col items-center mt-2">
             <!-- Movies Grid -->
             <div class="mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-20">
-                <section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+                <section
+                    class="flex flex-col items-center justify-center gap-4 py-8 md:py-10"
+                >
                     <div class="container mx-auto px-4 py-8">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                            {movies.map((item: Item, index: number) => (
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6"
+                        >
+                            {
+                                movies.map((item: Item, index: number) => (
                                     <MovieCard
-                                            index={index}
-                                            slug={item.slug}
-                                            name={item.name}
-                                            image={`${APP_DOMAIN_CDN_IMAGE}/${item.poster_url}`}
-                                            original_name={item.origin_name}
-                                            modified={item.modified}
-                                            year={item.year.toString()}
+                                        index={index}
+                                        slug={item.slug}
+                                        name={item.name}
+                                        image={`${APP_DOMAIN_CDN_IMAGE}/${item.poster_url}`}
+                                        year={item.year.toString()}
                                     />
-                            ))}
+                                ))
+                            }
                         </div>
 
                         <div class="mt-8">
                             <Pagination>
                                 <PaginationContent>
-                                    {currentPage > 1 && (
+                                    {
+                                        currentPage > 1 && (
                                             <PaginationItem>
-                                                <PaginationPrevious href={getPageUrl(currentPage - 1)}/>
+                                                <PaginationPrevious
+                                                    href={getPageUrl(
+                                                        currentPage - 1,
+                                                    )}
+                                                />
                                             </PaginationItem>
-                                    )}
+                                        )
+                                    }
 
                                     <PaginationItem>
-                                        <PaginationLink isActive={true}
-                                                        href={getPageUrl(currentPage)}>{currentPage}</PaginationLink>
+                                        <PaginationLink
+                                            isActive={true}
+                                            href={getPageUrl(currentPage)}
+                                            >{currentPage}</PaginationLink
+                                        >
                                     </PaginationItem>
 
-                                    {currentPage < totalPages && (
+                                    {
+                                        currentPage < totalPages && (
                                             <PaginationItem>
                                                 <PaginationLink
-                                                        href={getPageUrl(currentPage + 1)}>{currentPage + 1}</PaginationLink>
+                                                    href={getPageUrl(
+                                                        currentPage + 1,
+                                                    )}
+                                                >
+                                                    {currentPage + 1}
+                                                </PaginationLink>
                                             </PaginationItem>
-                                    )}
+                                        )
+                                    }
 
-                                    {currentPage < totalPages - 1 && (
+                                    {
+                                        currentPage < totalPages - 1 && (
                                             <PaginationItem>
                                                 <PaginationLink
-                                                        href={getPageUrl(currentPage + 2)}>{currentPage + 2}</PaginationLink>
+                                                    href={getPageUrl(
+                                                        currentPage + 2,
+                                                    )}
+                                                >
+                                                    {currentPage + 2}
+                                                </PaginationLink>
                                             </PaginationItem>
-                                    )}
+                                        )
+                                    }
 
-                                    {currentPage < totalPages && (
+                                    {
+                                        currentPage < totalPages && (
                                             <PaginationItem>
-                                                <PaginationNext href={getPageUrl(currentPage + 1)}/>
+                                                <PaginationNext
+                                                    href={getPageUrl(
+                                                        currentPage + 1,
+                                                    )}
+                                                />
                                             </PaginationItem>
-                                    )}
+                                        )
+                                    }
                                 </PaginationContent>
                             </Pagination>
                         </div>
