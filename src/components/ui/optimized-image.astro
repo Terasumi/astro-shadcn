@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    src: string;
+    alt: string;
+    width?: number;
+    height?: number;
+    loading?: "lazy" | "eager";
+    className?: string;
+}
+
+const {
+    src,
+    alt,
+    width = 400,
+    height = 225,
+    loading = "lazy",
+    className = "",
+} = Astro.props;
+
+// Convert external image URL to optimized Vercel image
+const imageUrl = src.startsWith("http") ? src : `https://phimimg.com/${src}`;
+---
+
+<!-- Use Astro's Image component with Vercel optimization -->
+<img
+    src={imageUrl}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+    class={className}
+/>

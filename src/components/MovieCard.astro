@@ -12,7 +12,7 @@ interface Props {
 const { index, slug, name, image, year } = Astro.props;
 ---
 
-<a href={`/phim/${slug}`} class="group" data-astro-prefetch="hover">
+<a href={`/phim/${slug}`} class="group block" data-astro-prefetch="hover">
     <Card
         className="overflow-hidden border border-transparent bg-slate-900/60 transition-all duration-300 ease-in-out group-hover:ring-4 group-hover:ring-slate-700/50 shadow-lg hover:shadow-2xl"
     >
@@ -24,17 +24,19 @@ const { index, slug, name, image, year } = Astro.props;
                 loading={index === 0 ? "eager" : "lazy"}
                 height={450}
                 transition:name={`image-${slug}`}
-                class="object-cover w-full h-full"
+                class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
             />
         </div>
         <div class="space-y-1 px-4 py-3">
             <h2
-                class="text-base font-semibold text-white line-clamp-1"
+                class="text-base font-semibold text-white line-clamp-1 transition-colors duration-200 group-hover:text-sky-300"
                 transition:name={`title-${slug}`}
             >
                 {name}
             </h2>
-            <p class="text-sm text-slate-300">
+            <p
+                class="text-sm text-slate-300 transition-colors duration-200 group-hover:text-slate-200"
+            >
                 {year}
             </p>
         </div>

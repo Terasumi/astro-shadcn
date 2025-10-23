@@ -1,5 +1,6 @@
 import type { Item, ResponseFlimType } from "@/types";
 import { getSecret } from "astro:env/server";
+import { CACHE_CONFIGS, getCacheHeaders } from "@/lib/cache";
 
 export type SectionLayout = "landscape" | "portrait";
 
@@ -36,9 +37,7 @@ export async function getSectionData(config: SectionConfig): Promise<SectionData
     try {
         const response = await fetch(requestUrl.toString(), {
             cache: "force-cache",
-            headers: {
-                "Cache-Control": `max-age=${3600 * 6}, s-maxage=${3600 * 6}, stale-while-revalidate=${3600 * 12}`,
-            },
+            headers: getCacheHeaders(CACHE_CONFIGS.SECTION_DATA),
         });
 
         if (!response.ok) {
@@ -46,7 +45,6 @@ export async function getSectionData(config: SectionConfig): Promise<SectionData
         }
 
         const data = await response.json();
-        // console.log(`Fetched section data for ${config.key}:`, data);
         return { ...config, items: data.data?.items ?? [] };
     } catch (error: any) {
         return {

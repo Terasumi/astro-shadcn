@@ -1,12 +1,22 @@
 ---
-import { formatYear, getSectionData } from "./section-utils";
+import { getSectionData } from "./section-utils";
+import type { SectionConfig } from "./section-utils";
 
-const { config } = Astro.props;
+interface Props {
+    config: SectionConfig;
+}
 
+const { config } = Astro.props as Props;
+
+// Only fetch data when section is near viewport
 const section = await getSectionData(config);
 ---
 
-<section class="flex flex-col gap-6" id={section.key}>
+<section
+    class="flex flex-col gap-6"
+    id={section.key}
+    data-section-type={config.typeList}
+>
     <div class="flex flex-wrap items-baseline justify-between gap-3">
         <div>
             <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">
@@ -33,7 +43,7 @@ const section = await getSectionData(config);
                         : ""
                 }`}
             >
-                {section.items.map((item) => {
+                {section.items.map((item, index) => {
                     const imageUrl =
                         section.layout === "landscape"
                             ? item.thumb_url || item.poster_url
@@ -57,13 +67,18 @@ const section = await getSectionData(config);
                                 >
                                     {imageUrl ? (
                                         <img
-                                            src={`https://phimimg.com/${imageUrl}`}
+                                            src={
+                                                index === 0
+                                                    ? `https://wsrv.nl/?url=https://phimimg.com/${imageUrl}&w=400&h=225&output=webp`
+                                                    : `https://wsrv.nl/?url=https://phimimg.com/${imageUrl}&w=200&h=113&output=webp`
+                                            }
                                             alt={item.name}
-                                            loading="lazy"
+                                            loading={
+                                                index < 3 ? "eager" : "lazy"
+                                            }
                                             decoding="async"
-                                            width="400"
-                                            height="225"
-                                            transition:name={`image-${item.slug}`}
+                                            width={index === 0 ? 400 : 200}
+                                            height={index === 0 ? 225 : 113}
                                             class="h-full w-full object-cover"
                                         />
                                     ) : (
@@ -73,7 +88,7 @@ const section = await getSectionData(config);
                                     )}
                                     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10" />
                                     <div class="pointer-events-none absolute left-3 top-3 rounded-full bg-slate-950/70 px-3 py-1 text-xs font-medium text-white/80">
-                                        {formatYear(item) ?? "N/A"}
+                                        {item.year ?? "N/A"}
                                     </div>
                                 </div>
                                 {section.layout === "landscape" ? null : (

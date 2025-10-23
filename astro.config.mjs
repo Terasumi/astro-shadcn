@@ -13,7 +13,10 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-    prefetch: true,
+    prefetch: {
+        prefetchAll: true,
+        defaultStrategy: 'hover'
+    },
     integrations: [react(),
         tailwind({
             applyBaseStyles: false,
@@ -27,6 +30,10 @@ export default defineConfig({
     ],
     image: {
         domains: ['wsrv.nl', "phimimg.com"],
+        // Enable Vercel Image Optimization
+        service: {
+            entrypoint: '@astrojs/vercel/image-service'
+        }
     },
     output: "server",
     adapter: vercel(
@@ -34,12 +41,23 @@ export default defineConfig({
             webAnalytics: {
                 enabled: true,
             },
-
+            // Enable edge middleware for better performance
+            edgeMiddleware: true,
+            // Optimize ISR caching
             isr: {
                 // caches all pages on first request and saves for 6 hours
                 expiration: 60 * 60 * 6,
                 // exclude: ['/'], // Loại trừ trang chủ khỏi ISR
             },
+            // Enable Vercel Image Optimization API
+            imageService: true,
+            imagesConfig: {
+                sizes: [320, 640, 960, 1280, 1920],
+                formats: ['image/webp', 'image/avif'],
+                minimumCacheTTL: 86400, // 24 hours
+            },
+            // Extend function timeout for API calls
+            maxDuration: 30,
         }
     ),
 });
