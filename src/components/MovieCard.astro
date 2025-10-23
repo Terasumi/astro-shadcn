@@ -18,7 +18,7 @@ const { index, slug, name, image, year } = Astro.props;
     >
         <div class="relative aspect-[2/3]">
             <Image
-                src={`//wsrv.nl/?url=${image}&w=300&h=450&output=webp`}
+                src={image}
                 alt={name}
                 width={300}
                 loading={index === 0 ? "eager" : "lazy"}

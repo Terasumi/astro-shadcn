@@ -1,0 +1,20 @@
+---
+import SectionList from "./SectionList.astro";
+import type { SectionConfig } from "./section-utils";
+
+const config: SectionConfig = {
+    key: "phim-le-noi-bat",
+    title: "Phim Lẻ Nổi Bật",
+    subtitle: "Phim lẻ gây sốt dịp cuối tuần",
+    typeList: "phim-le",
+    layout: "portrait",
+    params: {
+        page: "1",
+        sort_field: "year",
+        sort_type: "desc",
+        limit: "12",
+    },
+};
+---
+
+<SectionList config={config} />

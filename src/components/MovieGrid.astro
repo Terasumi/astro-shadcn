@@ -37,11 +37,7 @@ function getPageUrl(pageNum: number) {
 <head>
     {
         firstMovieImage && (
-            <link
-                rel="preload"
-                as="image"
-                href={`//wsrv.nl/?url=${firstMovieImage}&w=300&h=450&output=webp`}
-            />
+            <link rel="preload" as="image" href={firstMovieImage} />
         )
     }
 </head>

@@ -101,7 +101,7 @@ bun run preview  # Test production build locally
 ### **Image Optimization**
 All movie images pass through `wsrv.nl` CDN for WEBP conversion:
 ```astro
-<Image src={`//wsrv.nl/?url=${thumb_url}&w=300&h=450&output=webp`} alt="..." />
+<Image src={thumb_url} alt="..." />
 ```
 This reduces image sizes for SEO + performance. Preload first movie on homepage.
 

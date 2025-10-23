@@ -1,0 +1,103 @@
+---
+import { formatYear, getSectionData } from "./section-utils";
+import type { SectionConfig } from "./section-utils";
+
+interface Props {
+    config: SectionConfig;
+}
+
+const { config } = Astro.props as Props;
+
+const section = await getSectionData(config);
+// console.log("Section data:", section);
+---
+
+<section class="flex flex-col gap-6" id={section.key}>
+    <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <div>
+            <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">
+                {section.title}
+            </h2>
+            <p class="text-sm text-white/60">
+                {section.subtitle}
+            </p>
+        </div>
+        <a
+            href={`/danh-sach/${section.typeList}`}
+            class="text-sm font-medium text-sky-300 transition hover:text-sky-100"
+        >
+            Xem tất cả →
+        </a>
+    </div>
+
+    {
+        section.items.length ? (
+            <div
+                class={`-mx-2 flex gap-4 overflow-x-auto pb-2 pl-2 pr-4 ${
+                    section.layout === "landscape"
+                        ? "snap-x snap-mandatory"
+                        : ""
+                }`}
+            >
+                {section.items.map((item) => {
+                    const imageUrl =
+                        section.layout === "landscape"
+                            ? item.thumb_url || item.poster_url
+                            : item.poster_url || item.thumb_url;
+
+                    return (
+                        <article
+                            class={`group relative shrink-0 overflow-hidden rounded-xl bg-slate-900/60 ring-white/10 transition duration-200 hover:ring-2 hover:ring-white/30 mt-2 ${
+                                section.layout === "landscape"
+                                    ? "w-[350px] snap-start"
+                                    : "w-[230px]"
+                            }`}
+                        >
+                            <a href={`/phim/${item.slug}`} class="block h-full">
+                                <div
+                                    class={`${
+                                        section.layout === "landscape"
+                                            ? "aspect-[16/9]"
+                                            : "aspect-[3/4]"
+                                    } relative`}
+                                >
+                                    {imageUrl ? (
+                                        <img
+                                            src={`https://phimimg.com/${imageUrl}`}
+                                            alt={item.name}
+                                            loading="lazy"
+                                            transition:name={`image-${item.slug}`}
+                                            class="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div class="flex h-full w-full items-center justify-center bg-slate-800 text-xs text-white/50">
+                                            No Image
+                                        </div>
+                                    )}
+                                    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10" />
+                                    <div class="pointer-events-none absolute left-3 top-3 rounded-full bg-slate-950/70 px-3 py-1 text-xs font-medium text-white/80">
+                                        {formatYear(item) ?? "N/A"}
+                                    </div>
+                                </div>
+                                {section.layout === "landscape" ? null : (
+                                    <div class="space-y-1 px-4 py-4">
+                                        <h3 class="line-clamp-2 text-sm font-semibold text-white transition group-hover:text-sky-200">
+                                            {item.name}
+                                        </h3>
+                                        <p class="text-xs text-white/60 line-clamp-1">
+                                            {item.origin_name}
+                                        </p>
+                                    </div>
+                                )}
+                            </a>
+                        </article>
+                    );
+                })}
+            </div>
+        ) : (
+            <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-6 py-12 text-center text-sm text-white/70">
+                {section.error ?? "Không có dữ liệu để hiển thị."}
+            </div>
+        )
+    }
+</section>

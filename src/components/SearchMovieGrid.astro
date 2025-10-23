@@ -1,15 +1,40 @@
 ---
-import type { Item, ResponseFlimType } from "../types";
+import type { Item } from "../types";
 import MovieCard from "./MovieCard.astro";
 
-const { api } = Astro.props;
-const { keyword } = Astro.params;
+const { api, filters = {} } = Astro.props;
+const keyword = Astro.params.keyword ?? "";
+
+const queryParams = new URLSearchParams(filters as Record<string, string>);
+
+if (!queryParams.has("limit")) {
+    queryParams.set("limit", "32");
+}
+
+if (!queryParams.has("page")) {
+    queryParams.set("page", "1");
+}
+
+if (!queryParams.has("sort_field")) {
+    queryParams.set("sort_field", "modified.time");
+}
+
+if (!queryParams.has("sort_type")) {
+    queryParams.set("sort_type", "desc");
+}
+
+const queryString = queryParams.toString();
+
+const searchKeyword = encodeURIComponent(keyword);
+
 const response = await fetch(
-    `${api}/v1/api/tim-kiem?keyword=${keyword}&limit=${100}`,
+    `${api}/v1/api/tim-kiem?keyword=${searchKeyword}${
+        queryString ? `&${queryString}` : ""
+    }`,
 );
 const data: any = await response.json();
-const APP_DOMAIN_CDN_IMAGE = data.data.APP_DOMAIN_CDN_IMAGE;
-const movies = data.data.items;
+const APP_DOMAIN_CDN_IMAGE = data?.data?.APP_DOMAIN_CDN_IMAGE ?? "";
+const movies = data?.data?.items ?? [];
 ---
 
 <section class="flex flex-col items-center justify-center gap-4 py-8 md:py-10">

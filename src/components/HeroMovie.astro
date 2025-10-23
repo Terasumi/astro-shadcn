@@ -1,0 +1,206 @@
+---
+import type { Item, ResponseFlimType } from "@/types";
+
+function formatTimeStamp(item?: Item) {
+    const timeString = item?.modified?.time;
+    if (!timeString) return null;
+    const parsed = new Date(timeString);
+    if (Number.isNaN(parsed.valueOf())) return null;
+    return parsed.toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+    });
+}
+import { getSecret } from "astro:env/server";
+
+const PUBLIC_PHIM_MOI = getSecret("PUBLIC_PHIM_MOI");
+
+const latestResponse = await fetch(
+    `${PUBLIC_PHIM_MOI}/danh-sach/phim-moi-cap-nhat?page=1`,
+    {
+        cache: "force-cache",
+        headers: {
+            "Cache-Control": `max-age=${3600 * 6}, s-maxage=${3600 * 6}, stale-while-revalidate=${3600 * 12}`,
+        },
+    },
+);
+
+const latestData: ResponseFlimType = await latestResponse.json();
+const items = latestData?.items ?? [];
+
+const featured = items.slice(0, 5);
+const hasFeatured = featured.length > 0;
+---
+
+<section
+    class="relative mx-auto flex w-full  flex-col gap-12 px-8 pt-8 pb-10"
+>
+    {
+        hasFeatured ? (
+            <div class="relative rounded-3xl bg-slate-900/70 shadow-2xl ring-1 ring-white/10" data-carousel="hero">
+                <div class="relative min-h-[28rem] overflow-hidden sm:min-h-[30rem] md:min-h-[32rem]">
+                    {featured.map((item, index) => (
+                        <article
+                            class={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
+                                index === 0
+                                    ? "z-20 opacity-100"
+                                    : "z-10 pointer-events-none opacity-0"
+                            }`}
+                            data-slide
+                            data-index={index}
+                            aria-hidden={index === 0 ? "false" : "true"}
+                        >
+                            <div class="absolute inset-0 overflow-hidden rounded-3xl">
+                                {item?.thumb_url && (
+                                    <img
+                                        src={item.thumb_url}
+                                        alt={item.name}
+                                        class="pointer-events-none h-full w-full object-cover opacity-70"
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        style="mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.4) 100%);"
+                                    />
+                                )}
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950 to-slate-950/30" />
+                            </div>
+
+                            <div class="relative flex flex-col gap-6 px-6 py-14 sm:px-10 md:px-14 lg:px-20">
+                                <div class="flex-col gap-2">
+                                    <span class="rounded-full bg-white/15 px-3 py-1">
+                                        Mới cập nhật
+                                    </span>                                    
+                                </div>
+
+                                <div class="max-w-3xl space-y-3">
+                                    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+                                        {item.name}
+                                    </h1>
+                                    <p class="text-base text-white/80 sm:text-lg">
+                                        {item.origin_name}
+                                    </p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-4">
+                                    <a
+                                        href={`/phim/${item.slug}`}
+                                        class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 transition hover:bg-sky-200"
+                                    >
+                                        Xem ngay
+                                    </a>
+                                    <a
+                                        href={`/phim/${item.slug}`}
+                                        class="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+                                    >
+                                        Chi tiết
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+
+                {featured.length > 1 && (
+                    <>
+                        <div class="pointer-events-auto absolute inset-y-0 left-0 z-40 flex items-center px-3">
+                            <button
+                                type="button"
+                                class="z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg ring-2 ring-sky-300/70 transition hover:bg-slate-800"
+                                data-prev
+                                aria-label="Phim trước"
+                            >
+                                <span aria-hidden="true">‹</span>
+                            </button>
+                        </div>
+                        <div class="pointer-events-auto absolute inset-y-0 right-0 z-40 flex items-center px-3">
+                            <button
+                                type="button"
+                                class="z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg ring-2 ring-sky-300/70 transition hover:bg-slate-800"
+                                data-next
+                                aria-label="Phim tiếp"
+                            >
+                                <span aria-hidden="true">›</span>
+                            </button>
+                        </div>
+                        <div class="pointer-events-none absolute inset-x-0 bottom-8 z-40 flex justify-center gap-2">
+                            {featured.map((item, index) => (
+                                <button
+                                    type="button"
+                                    class={`pointer-events-auto h-2 w-8 rounded-full transition ${
+                                        index === 0 ? "bg-white" : "bg-white/30"
+                                    }`}
+                                    data-dot
+                                    data-index={index}
+                                    aria-label={`Chuyển tới phim ${item.name}`}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+        ) : (
+            <div class="rounded-3xl border border-white/10 bg-slate-900/70 p-12 text-center text-sm text-white/70">
+                Không thể tải dữ liệu phim mới. Vui lòng thử lại sau.
+            </div>
+        )
+    }
+
+    {featured.length > 1 && (
+        <script is:inline>
+            const heroCarousel = document.querySelector('[data-carousel="hero"]');
+            if (heroCarousel) {
+                const slides = Array.from(heroCarousel.querySelectorAll('[data-slide]'));
+                const dots = Array.from(heroCarousel.querySelectorAll('[data-dot]'));
+                const prevButton = heroCarousel.querySelector('[data-prev]');
+                const nextButton = heroCarousel.querySelector('[data-next]');
+                let activeIndex = 0;
+
+                const toggleSlide = (index) => {
+                    if (!slides.length) return;
+                    activeIndex = (index + slides.length) % slides.length;
+
+                    slides.forEach((slide, slideIndex) => {
+                        const isActive = slideIndex === activeIndex;
+                        slide.classList.toggle('opacity-0', !isActive);
+                        slide.classList.toggle('pointer-events-none', !isActive);
+                        slide.classList.toggle('opacity-100', isActive);
+                        slide.classList.toggle('z-20', isActive);
+                        slide.classList.toggle('z-10', !isActive);
+                        slide.setAttribute('aria-hidden', (!isActive).toString());
+                    });
+
+                    dots.forEach((dot, dotIndex) => {
+                        const isActive = dotIndex === activeIndex;
+                        dot.classList.toggle('bg-white', isActive);
+                        dot.classList.toggle('bg-white/30', !isActive);
+                    });
+                };
+
+                const handleNext = () => toggleSlide(activeIndex + 1);
+                const handlePrev = () => toggleSlide(activeIndex - 1);
+
+                nextButton?.addEventListener('click', handleNext);
+                prevButton?.addEventListener('click', handlePrev);
+                dots.forEach((dot) => {
+                    dot.addEventListener('click', () => {
+                        const index = Number.parseInt(dot.dataset.index ?? '0', 10);
+                        toggleSlide(index);
+                    });
+                });
+
+                // optional: keyboard arrow support when carousel focused
+                heroCarousel.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowRight') {
+                        event.preventDefault();
+                        handleNext();
+                    }
+                    if (event.key === 'ArrowLeft') {
+                        event.preventDefault();
+                        handlePrev();
+                    }
+                });
+
+                heroCarousel.setAttribute('tabindex', '0');
+            }
+        </script>
+    )}
+</section>

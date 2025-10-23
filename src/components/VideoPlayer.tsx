@@ -10,7 +10,11 @@ const VideoPlayer: React.FC = () => {
             setSelectedEpisode(event.detail);
             if (videoSectionRef.current) {
                 setTimeout(() => {
-                    videoSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    videoSectionRef.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'nearest',
+                    });
                 }, 100);
             }
         };
