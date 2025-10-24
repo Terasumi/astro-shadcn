@@ -31,15 +31,12 @@ export default defineConfig({
     image: {
         domains: ['wsrv.nl', "phimimg.com"],
         // Enable Vercel Image Optimization
-        service: {
-            entrypoint: '@astrojs/vercel/image-service'
-        }
     },
     output: "server",
     adapter: vercel(
         {
             webAnalytics: {
-                enabled: true,
+                enabled: false,
             },
             // Enable edge middleware for better performance
             edgeMiddleware: true,
@@ -47,16 +44,9 @@ export default defineConfig({
             isr: {
                 // caches all pages on first request and saves for 12 hours
                 expiration: 60 * 60 * 12,
-
-                // exclude: ['/'], // Loại trừ trang chủ khỏi ISR
             },
             // Enable Vercel Image Optimization API
-            imageService: true,
-            imagesConfig: {
-                sizes: [320, 640, 960, 1280, 1920],
-                formats: ['image/webp', 'image/avif'],
-                minimumCacheTTL: 86400, // 24 hours
-            },
+            imageService: false,
             // Extend function timeout for API calls
             maxDuration: 30,
         }

@@ -32,7 +32,9 @@ import MobileMenu from "@/components/MobileMenu";
             <div
                 class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-3 md:flex-row md:items-center md:justify-between"
             >
-                <div class="flex w-full items-center justify-between gap-3 md:w-auto md:justify-start">
+                <div
+                    class="flex w-full items-center justify-between gap-3 md:w-auto md:justify-start"
+                >
                     <a
                         href="/"
                         class="flex flex-shrink-0 items-center gap-2"
@@ -45,15 +47,19 @@ import MobileMenu from "@/components/MobileMenu";
                         </span>
                     </a>
                     <div class="flex items-center gap-2 md:hidden">
-                        <SearchForm client:load variant="icon" />
+                        <SearchForm client:only="react" variant="icon" />
                         <MobileMenu client:idle />
                     </div>
                 </div>
-                <div class="hidden w-full md:flex md:flex-1 md:items-center md:gap-6">
+                <div
+                    class="hidden w-full md:flex md:flex-1 md:items-center md:gap-6"
+                >
                     <NavigationMenuDemo client:idle />
                 </div>
-                <div class="hidden w-full md:block md:w-auto md:max-w-sm md:flex-1">
-                    <SearchForm client:load />
+                <div
+                    class="hidden w-full md:block md:w-auto md:max-w-sm md:flex-1"
+                >
+                    <SearchForm client:only="react" />
                 </div>
             </div>
         </nav>

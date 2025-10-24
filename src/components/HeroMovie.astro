@@ -3,6 +3,7 @@ import type { ResponseFlimType } from "@/types";
 
 import { getSecret } from "astro:env/server";
 import { getCachedValue, setCachedValue } from "@/lib/server-cache";
+import { wsrv, wsrvSrcSet } from "@/lib/wsrv";
 
 const PUBLIC_PHIM_MOI = getSecret("PUBLIC_PHIM_MOI");
 const HERO_CACHE_KEY = "hero:latest";
@@ -52,15 +53,44 @@ const hasFeatured = featured.length > 0;
                             aria-hidden={index === 0 ? "false" : "true"}
                         >
                             <div class="absolute inset-0 overflow-hidden rounded-3xl">
-                                {item?.thumb_url && (
-                                    <img
-                                        src={item.thumb_url}
-                                        alt={item.name}
-                                        class="pointer-events-none h-full w-full object-cover opacity-70"
-                                        loading={index === 0 ? "eager" : "lazy"}
-                                        style="mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.4) 100%);"
-                                    />
-                                )}
+                                {item?.thumb_url && (() => {
+                                    const heroSrc = wsrv(item.thumb_url, {
+                                        width: 1600,
+                                        height: 900,
+                                        withoutEnlargement: true,
+                                        quality: 88,
+                                    });
+                                    const heroSrcSet = wsrvSrcSet(item.thumb_url, [
+                                        {
+                                            width: 1600,
+                                            height: 900,
+                                            withoutEnlargement: true,
+                                            quality: 88,
+                                            descriptor: "1x",
+                                        },
+                                        {
+                                            width: 1600,
+                                            height: 900,
+                                            dpr: 2,
+                                            withoutEnlargement: true,
+                                            quality: 72,
+                                            descriptor: "2x",
+                                        },
+                                    ]);
+                                    return heroSrc ? (
+                                        <img
+                                            src={heroSrc}
+                                            srcset={heroSrcSet ?? undefined}
+                                            sizes="100vw"
+                                            alt={item.name}
+                                            class="pointer-events-none h-full w-full object-cover opacity-70"
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            width="1600"
+                                            height="900"
+                                            style="mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.4) 100%);"
+                                        />
+                                    ) : null;
+                                })()}
                                 <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/20" />
                             </div>
 

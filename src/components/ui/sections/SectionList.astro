@@ -1,4 +1,5 @@
 ---
+import { wsrv, wsrvSrcSet } from "@/lib/wsrv";
 import { formatYear, getSectionData } from "./section-utils";
 
 const { config } = Astro.props;
@@ -34,10 +35,48 @@ const section = await getSectionData(config);
                 }`}
             >
                 {section.items.map((item) => {
+                    const isLandscape = section.layout === "landscape";
+                    const baseWidth = isLandscape ? 350 : 230;
+                    const baseHeight = isLandscape
+                        ? Math.round((baseWidth * 9) / 16)
+                        : Math.round((baseWidth * 4) / 3);
                     const imageUrl =
                         section.layout === "landscape"
                             ? item.thumb_url || item.poster_url
                             : item.poster_url || item.thumb_url;
+
+                    const imageSrc = imageUrl
+                        ? wsrv(imageUrl, {
+                              width: baseWidth,
+                              height: baseHeight,
+                              withoutEnlargement: true,
+                              quality: 85,
+                          })
+                        : null;
+
+                    const imageSrcSet = imageUrl
+                        ? wsrvSrcSet(imageUrl, [
+                              {
+                                  width: baseWidth,
+                                  height: baseHeight,
+                                  withoutEnlargement: true,
+                                  quality: 85,
+                                  descriptor: "1x",
+                              },
+                              {
+                                  width: baseWidth,
+                                  height: baseHeight,
+                                  dpr: 2,
+                                  withoutEnlargement: true,
+                                  quality: 70,
+                                  descriptor: "2x",
+                              },
+                          ])
+                        : null;
+
+                    const sizes = isLandscape
+                        ? "(max-width: 768px) 80vw, 350px"
+                        : "(max-width: 768px) 60vw, 230px";
 
                     return (
                         <article
@@ -55,14 +94,16 @@ const section = await getSectionData(config);
                                             : "aspect-[3/4]"
                                     } relative`}
                                 >
-                                    {imageUrl ? (
+                                    {imageSrc ? (
                                         <img
-                                            src={`https://phimimg.com/${imageUrl}`}
+                                            src={imageSrc}
+                                            srcset={imageSrcSet ?? undefined}
                                             alt={item.name}
                                             loading="lazy"
                                             decoding="async"
-                                            width="400"
-                                            height="225"
+                                            width={baseWidth}
+                                            height={baseHeight}
+                                            sizes={sizes}
                                             transition:name={`${
                                                 section.layout === "landscape"
                                                     ? "poster"
