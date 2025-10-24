@@ -120,9 +120,9 @@ export function wsrv(source: string | null | undefined, options: WsrvOptions = {
         params.set("af", "true");
     }
     setParam("output", options.output ?? "webp");
-    setParam("q", options.quality);
-    setParam("maxage", options.cacheMaxAge);
-    setParam("l", options.compressionLevel);
+    setParam("q", options.quality ?? 80);
+    setParam("maxage", options.cacheMaxAge ?? 31536000);
+    setParam("l", options.compressionLevel ?? 6);
     if (options.lossless) {
         params.set("ll", "true");
     }
@@ -170,3 +170,119 @@ export function wsrvSrcSet(source: string | null | undefined, variants: WsrvSrcS
 
     return entries.join(", ");
 }
+
+/**
+ * Common image optimization presets for different use cases
+ */
+export const imagePresets = {
+    hero: {
+        base: {
+            width: 1200,
+            height: 675,
+            withoutEnlargement: true,
+            quality: 75,
+        },
+        srcset: [
+            {
+                width: 640,
+                height: 360,
+                withoutEnlargement: true,
+                quality: 70,
+                descriptor: "640w",
+            },
+            {
+                width: 800,
+                height: 450,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "800w",
+            },
+            {
+                width: 1200,
+                height: 675,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "1200w",
+            },
+            {
+                width: 1600,
+                height: 900,
+                withoutEnlargement: true,
+                quality: 70,
+                descriptor: "1600w",
+            },
+        ],
+        sizes: "(max-width: 640px) 100vw, (max-width: 768px) 90vw, (max-width: 1024px) 80vw, 1200px",
+    },
+    poster: {
+        base: {
+            width: 320,
+            height: 480,
+            withoutEnlargement: true,
+            quality: 80,
+        },
+        srcset: [
+            {
+                width: 160,
+                height: 240,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "160w",
+            },
+            {
+                width: 240,
+                height: 360,
+                withoutEnlargement: true,
+                quality: 80,
+                descriptor: "240w",
+            },
+            {
+                width: 320,
+                height: 480,
+                withoutEnlargement: true,
+                quality: 80,
+                descriptor: "320w",
+            },
+            {
+                width: 480,
+                height: 720,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "480w",
+            },
+        ],
+        sizes: "(max-width: 640px) 45vw, (max-width: 768px) 22vw, (max-width: 1024px) 18vw, 320px",
+    },
+    thumbnail: {
+        base: {
+            width: 300,
+            height: 450,
+            withoutEnlargement: true,
+            quality: 80,
+        },
+        srcset: [
+            {
+                width: 150,
+                height: 225,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "150w",
+            },
+            {
+                width: 300,
+                height: 450,
+                withoutEnlargement: true,
+                quality: 80,
+                descriptor: "300w",
+            },
+            {
+                width: 450,
+                height: 675,
+                withoutEnlargement: true,
+                quality: 75,
+                descriptor: "450w",
+            },
+        ],
+        sizes: "(max-width: 640px) 45vw, (max-width: 768px) 22vw, (max-width: 1024px) 18vw, 300px",
+    },
+};

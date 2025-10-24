@@ -39,7 +39,7 @@ export default defineConfig({
                 enabled: false,
             },
             // Enable edge middleware for better performance
-            edgeMiddleware: true,
+            edgeMiddleware: false,
             // Optimize ISR caching - longer cache for better performance
             isr: {
                 // caches all pages on first request and saves for 12 hours

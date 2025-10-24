@@ -96,7 +96,7 @@ function getPageUrl(pageNum: number): string {
                                         index={index}
                                         slug={item.slug}
                                         name={item.name}
-                                        image={`${APP_DOMAIN_CDN_IMAGE}/${item.poster_url}`}
+                                        image={item.poster_url}
                                         year={item.year.toString()}
                                     />
                                 ))

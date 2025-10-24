@@ -3,7 +3,7 @@ import type { ResponseFlimType } from "@/types";
 
 import { getSecret } from "astro:env/server";
 import { getCachedValue, setCachedValue } from "@/lib/server-cache";
-import { wsrv, wsrvSrcSet } from "@/lib/wsrv";
+import { wsrv, wsrvSrcSet, imagePresets } from "@/lib/wsrv";
 
 const PUBLIC_PHIM_MOI = getSecret("PUBLIC_PHIM_MOI");
 const HERO_CACHE_KEY = "hero:latest";
@@ -54,39 +54,19 @@ const hasFeatured = featured.length > 0;
                         >
                             <div class="absolute inset-0 overflow-hidden rounded-3xl">
                                 {item?.thumb_url && (() => {
-                                    const heroSrc = wsrv(item.thumb_url, {
-                                        width: 1600,
-                                        height: 900,
-                                        withoutEnlargement: true,
-                                        quality: 88,
-                                    });
-                                    const heroSrcSet = wsrvSrcSet(item.thumb_url, [
-                                        {
-                                            width: 1600,
-                                            height: 900,
-                                            withoutEnlargement: true,
-                                            quality: 88,
-                                            descriptor: "1x",
-                                        },
-                                        {
-                                            width: 1600,
-                                            height: 900,
-                                            dpr: 2,
-                                            withoutEnlargement: true,
-                                            quality: 72,
-                                            descriptor: "2x",
-                                        },
-                                    ]);
+                                    const heroSrc = wsrv(item.thumb_url, imagePresets.hero.base);
+                                    const heroSrcSet = wsrvSrcSet(item.thumb_url, imagePresets.hero.srcset);
                                     return heroSrc ? (
                                         <img
                                             src={heroSrc}
                                             srcset={heroSrcSet ?? undefined}
-                                            sizes="100vw"
+                                            sizes={imagePresets.hero.sizes}
                                             alt={item.name}
                                             class="pointer-events-none h-full w-full object-cover opacity-70"
                                             loading={index === 0 ? "eager" : "lazy"}
-                                            width="1600"
-                                            height="900"
+                                            fetchpriority={index === 0 ? "high" : "auto"}
+                                            width="1200"
+                                            height="675"
                                             style="mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.65) 70%, rgba(0, 0, 0, 0.4) 100%);"
                                         />
                                     ) : null;
@@ -114,12 +94,14 @@ const hasFeatured = featured.length > 0;
                                     <a
                                         href={`/phim/${item.slug}`}
                                         class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 transition hover:bg-sky-200"
+                                        tabindex={index === 0 ? "0" : "-1"}
                                     >
                                         Xem ngay
                                     </a>
                                     <a
                                         href={`/phim/${item.slug}`}
                                         class="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-2 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+                                        tabindex={index === 0 ? "0" : "-1"}
                                     >
                                         Chi tiết
                                     </a>
@@ -196,6 +178,12 @@ const hasFeatured = featured.length > 0;
                         slide.classList.toggle('z-20', isActive);
                         slide.classList.toggle('z-10', !isActive);
                         slide.setAttribute('aria-hidden', (!isActive).toString());
+                        
+                        // Update tabindex for all links in the slide
+                        const links = slide.querySelectorAll('a');
+                        links.forEach(link => {
+                            link.setAttribute('tabindex', isActive ? '0' : '-1');
+                        });
                     });
 
                     dots.forEach((dot, dotIndex) => {

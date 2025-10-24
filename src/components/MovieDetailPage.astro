@@ -19,7 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import EpisodeSelector from "./EpisodeSelector";
 import VideoPlayer from "./VideoPlayer";
-import { wsrv, wsrvSrcSet } from "@/lib/wsrv";
+import { wsrv, wsrvSrcSet, imagePresets } from "@/lib/wsrv";
 
 const { data, slug: routeSlug } = Astro.props;
 const movie = data.movie;
@@ -28,60 +28,12 @@ const episodes = data.episodes;
 const viewFormatter = new Intl.NumberFormat("vi-VN");
 
 const heroSource = movie.thumb_url ?? movie.poster_url;
-const heroImage = wsrv(heroSource, {
-    width: 1600,
-    height: 900,
-    withoutEnlargement: true,
-    quality: 88,
-});
-const heroSrcSet = wsrvSrcSet(heroSource, [
-    {
-        width: 1600,
-        height: 900,
-        withoutEnlargement: true,
-        quality: 88,
-        descriptor: "1x",
-    },
-    {
-        width: 1600,
-        height: 900,
-        dpr: 2,
-        withoutEnlargement: true,
-        quality: 72,
-        descriptor: "2x",
-    },
-]);
+const heroImage = wsrv(heroSource, imagePresets.hero.base);
+const heroSrcSet = wsrvSrcSet(heroSource, imagePresets.hero.srcset);
 
 const posterSource = movie.poster_url ?? movie.thumb_url;
-const posterImage = wsrv(posterSource, {
-    width: 480,
-    height: 720,
-    withoutEnlargement: true,
-    quality: 90,
-});
-const posterSrcSet = wsrvSrcSet(posterSource, [
-    {
-        width: 320,
-        height: 480,
-        withoutEnlargement: true,
-        quality: 88,
-        descriptor: "320w",
-    },
-    {
-        width: 480,
-        height: 720,
-        withoutEnlargement: true,
-        quality: 88,
-        descriptor: "480w",
-    },
-    {
-        width: 640,
-        height: 960,
-        withoutEnlargement: true,
-        quality: 76,
-        descriptor: "640w",
-    },
-]);
+const posterImage = wsrv(posterSource, imagePresets.poster.base);
+const posterSrcSet = wsrvSrcSet(posterSource, imagePresets.poster.srcset);
 ---
 
 <div class="container mx-auto py-10 space-y-10">
@@ -90,19 +42,21 @@ const posterSrcSet = wsrvSrcSet(posterSource, [
         class="relative isolate overflow-hidden rounded-3xl bg-slate-950 text-slate-50 shadow-2xl"
     >
         <div class="absolute inset-0">
-            {heroImage ? (
-                <img
-                    loading="eager"
-                    src={heroImage}
-                    srcset={heroSrcSet ?? undefined}
-                    sizes="100vw"
-                    alt={movie.name}
-                    width="1600"
-                    height="900"
-                    class="h-full w-full object-cover"
-                    transition:name={`poster-${slug}`}
-                />
-            ) : null}
+            {
+                heroImage ? (
+                    <img
+                        loading="eager"
+                        src={heroImage}
+                        srcset={heroSrcSet ?? undefined}
+                        sizes={imagePresets.hero.sizes}
+                        alt={movie.name}
+                        width="1200"
+                        height="675"
+                        class="h-full w-full object-cover"
+                        transition:name={`poster-${slug}`}
+                    />
+                ) : null
+            }
             <div
                 class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-slate-900/20"
                 aria-hidden="true"
@@ -117,23 +71,25 @@ const posterSrcSet = wsrvSrcSet(posterSource, [
                     className="overflow-hidden rounded-3xl border-slate-800/60 bg-slate-900/70 shadow-2xl shadow-slate-950/40"
                 >
                     <CardContent className="p-0">
-                        {posterImage ? (
-                            <img
-                                loading="eager"
-                                src={posterImage}
-                                srcset={posterSrcSet ?? undefined}
-                                sizes="(max-width: 768px) 60vw, 320px"
-                                alt={movie.name}
-                                width="480"
-                                height="720"
-                                transition:name={`image-${slug}`}
-                                class="h-full w-full object-cover"
-                            />
-                        ) : (
-                            <div class="flex aspect-[2/3] w-full items-center justify-center bg-slate-800 text-sm text-white/60">
-                                No Image
-                            </div>
-                        )}
+                        {
+                            posterImage ? (
+                                <img
+                                    loading="eager"
+                                    src={posterImage}
+                                    srcset={posterSrcSet ?? undefined}
+                                    sizes="(max-width: 768px) 60vw, 320px"
+                                    alt={movie.name}
+                                    width="480"
+                                    height="720"
+                                    transition:name={`image-${slug}`}
+                                    class="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <div class="flex aspect-[2/3] w-full items-center justify-center bg-slate-800 text-sm text-white/60">
+                                    No Image
+                                </div>
+                            )
+                        }
                     </CardContent>
                 </Card>
             </div>

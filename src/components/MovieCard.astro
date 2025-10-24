@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Card } from "@/components/ui/card";
+import { wsrv, wsrvSrcSet, imagePresets } from "@/lib/wsrv";
 interface Props {
     index: number;
     slug: string;
@@ -10,6 +11,9 @@ interface Props {
 }
 
 const { index, slug, name, image, year } = Astro.props;
+
+const optimizedImage = wsrv(image, imagePresets.thumbnail.base);
+const optimizedSrcSet = wsrvSrcSet(image, imagePresets.thumbnail.srcset);
 ---
 
 <a href={`/phim/${slug}`} class="group block" data-astro-prefetch="hover">
@@ -17,15 +21,31 @@ const { index, slug, name, image, year } = Astro.props;
         className="overflow-hidden border border-transparent bg-slate-900/60 transition-all duration-300 ease-in-out group-hover:ring-4 group-hover:ring-slate-700/50 shadow-lg hover:shadow-2xl"
     >
         <div class="relative aspect-[2/3]">
-            <Image
-                src={image}
-                alt={name}
-                width={300}
-                loading={index === 0 ? "eager" : "lazy"}
-                height={450}
-                transition:name={`image-${slug}`}
-                class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-            />
+            {
+                optimizedImage ? (
+                    <img
+                        src={optimizedImage}
+                        srcset={optimizedSrcSet ?? undefined}
+                        sizes={imagePresets.thumbnail.sizes}
+                        alt={name}
+                        width={300}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        height={450}
+                        class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        transition:name={`image-${slug}`}
+                    />
+                ) : (
+                    <Image
+                        src={image}
+                        alt={name}
+                        width={300}
+                        loading={index === 0 ? "eager" : "lazy"}
+                        height={450}
+                        transition:name={`image-${slug}`}
+                        class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                    />
+                )
+            }
         </div>
         <div class="space-y-1 px-4 py-3">
             <h2
