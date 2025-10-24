@@ -8,6 +8,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { Search } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 const QUICK_LINKS = [
     { label: "Phim mới cập nhật", href: "/" },
@@ -16,7 +17,12 @@ const QUICK_LINKS = [
     { label: "Phim chiếu rạp", href: "/danh-sach/phim-chieu-rap" },
 ]
 
-const SearchForm: React.FC = () => {
+interface SearchFormProps {
+    variant?: "default" | "icon"
+}
+
+const SearchForm: React.FC<SearchFormProps> = ({ variant = "default" }) => {
+    const isIconVariant = variant === "icon"
     const [open, setOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
 
@@ -46,13 +52,25 @@ const SearchForm: React.FC = () => {
     return (
         <>
             <Button
-                variant="outline"
-                className="w-full justify-start gap-2 border-white/10 bg-white/5 text-white hover:bg-white/10"
+                variant={isIconVariant ? "ghost" : "outline"}
+                size={isIconVariant ? "icon" : "default"}
+                className={cn(
+                    "border-white/10 bg-white/5 text-white hover:bg-white/10",
+                    isIconVariant
+                        ? "h-10 w-10 rounded-full"
+                        : "w-full justify-start gap-2"
+                )}
                 onClick={() => setOpen(true)}
             >
                 <Search className="h-4 w-4" />
-                <span className="flex-1 text-left text-sm">Tìm phim, diễn viên...</span>
-                <span className="hidden text-xs text-white/60 md:inline">⌘K</span>
+                {isIconVariant ? (
+                    <span className="sr-only">Tìm kiếm</span>
+                ) : (
+                    <>
+                        <span className="flex-1 text-left text-sm">Tìm phim, diễn viên...</span>
+                        <span className="hidden text-xs text-white/60 md:inline">⌘K</span>
+                    </>
+                )}
             </Button>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogContent className="w-full max-w-md bg-slate-900">

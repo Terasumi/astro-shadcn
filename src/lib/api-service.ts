@@ -2,6 +2,7 @@
 import { getSecret } from "astro:env/server";
 import { CACHE_CONFIGS, getCacheHeaders } from "./cache";
 import type { Item } from "@/types";
+import { getCachedValue, setCachedValue } from "./server-cache";
 
 export interface SectionRequest {
   key: string;
@@ -43,6 +44,12 @@ export async function fetchBatchedSections(requests: SectionRequest[]): Promise<
       const searchParams = new URLSearchParams(req.params);
       requestUrl.search = searchParams.toString();
 
+      const cacheKey = `section:${req.typeList}?${searchParams.toString()}`;
+      const cached = getCachedValue<SectionResponse>(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
       const response = await fetch(requestUrl.toString(), {
         cache: "force-cache",
         headers: getCacheHeaders(CACHE_CONFIGS.SECTION_DATA),
@@ -53,10 +60,14 @@ export async function fetchBatchedSections(requests: SectionRequest[]): Promise<
       }
 
       const data = await response.json();
-      return {
+      const result: SectionResponse = {
         key: req.key,
         items: data.data?.items ?? [],
       };
+
+      setCachedValue(cacheKey, result, CACHE_CONFIGS.SECTION_DATA.maxAge);
+
+      return result;
     } catch (error: any) {
       return {
         key: req.key,

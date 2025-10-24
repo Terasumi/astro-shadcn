@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 
-const movieCategories = [
+export const movieCategories = [
   {"_id":"9822be111d2ccc29c7172c78b8af8ff5","name":"Hành Động","slug":"hanh-dong"},
   {"_id":"d111447ee87ec1a46a31182ce4623662","name":"Miền Tây","slug":"mien-tay"},
   {"_id":"0c853f6238e0997ee318b646bb1978bc","name":"Trẻ Em","slug":"tre-em"},

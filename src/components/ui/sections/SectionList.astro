@@ -63,7 +63,11 @@ const section = await getSectionData(config);
                                             decoding="async"
                                             width="400"
                                             height="225"
-                                            transition:name={`image-${item.slug}`}
+                                            transition:name={`${
+                                                section.layout === "landscape"
+                                                    ? "poster"
+                                                    : "image"
+                                            }-${item.slug}`}
                                             class="h-full w-full object-cover"
                                         />
                                     ) : (
