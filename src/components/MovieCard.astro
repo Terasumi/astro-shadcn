@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Card } from "@/components/ui/card";
-import { wsrv, wsrvSrcSet, imagePresets } from "@/lib/wsrv";
+import { resolveImageUrl, imagePresets } from "@/lib/wsrv";
 interface Props {
     index: number;
     slug: string;
@@ -12,8 +12,8 @@ interface Props {
 
 const { index, slug, name, image, year } = Astro.props;
 
-const optimizedImage = wsrv(image, imagePresets.thumbnail.base);
-const optimizedSrcSet = wsrvSrcSet(image, imagePresets.thumbnail.srcset);
+const imageSource = resolveImageUrl(image);
+const thumbnailPreset = imagePresets.thumbnail;
 ---
 
 <a href={`/phim/${slug}`} class="group block" data-astro-prefetch="hover">
@@ -22,28 +22,24 @@ const optimizedSrcSet = wsrvSrcSet(image, imagePresets.thumbnail.srcset);
     >
         <div class="relative aspect-[2/3]">
             {
-                optimizedImage ? (
-                    <img
-                        src={optimizedImage}
-                        srcset={optimizedSrcSet ?? undefined}
-                        sizes={imagePresets.thumbnail.sizes}
+                imageSource ? (
+                    <Image
+                        src={imageSource}
                         alt={name}
-                        width={300}
+                        width={thumbnailPreset.dimension.width}
+                        height={thumbnailPreset.dimension.height}
+                        widths={thumbnailPreset.widths}
+                        sizes={thumbnailPreset.sizes}
+                        quality={thumbnailPreset.quality}
+                        fit="cover"
                         loading={index === 0 ? "eager" : "lazy"}
-                        height={450}
-                        class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                         transition:name={`image-${slug}`}
+                        class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                     />
                 ) : (
-                    <Image
-                        src={image}
-                        alt={name}
-                        width={300}
-                        loading={index === 0 ? "eager" : "lazy"}
-                        height={450}
-                        transition:name={`image-${slug}`}
-                        class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                    />
+                    <div class="flex h-full w-full items-center justify-center bg-slate-800 text-xs text-white/60">
+                        No Image
+                    </div>
                 )
             }
         </div>

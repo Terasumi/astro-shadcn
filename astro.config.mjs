@@ -29,8 +29,18 @@ export default defineConfig({
         // ),
     ],
     image: {
-        domains: ['wsrv.nl', "phimimg.com"],
-        // Enable Vercel Image Optimization
+        service: {
+            entrypoint: './src/lib/image-service/wsrc.ts',
+            config: {
+                
+                baseUrl: 'https://wsrv.nl/?url=',
+                imageOrigin: 'https://phimimg.com/',
+                defaultQuality: 80,
+                defaultFormat: 'webp',
+            },
+        },
+        domains: ['wsrv.nl', 'phimimg.com'],
+        responsiveStyles: true,
     },
     output: "server",
     adapter: vercel(

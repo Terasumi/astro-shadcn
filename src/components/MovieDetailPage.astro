@@ -2,24 +2,20 @@
 import {
     Star,
     Calendar,
-    Clock,
     Eye,
-    Film,
-    Captions,
-    Proportions,
     Play,
     Share2,
     ThumbsUp,
-    ThumbsDown,
     Plus,
 } from "lucide-react";
+import { Image } from "astro:assets";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import EpisodeSelector from "./EpisodeSelector";
 import VideoPlayer from "./VideoPlayer";
-import { wsrv, wsrvSrcSet, imagePresets } from "@/lib/wsrv";
+import { resolveImageUrl, imagePresets } from "@/lib/wsrv";
 
 const { data, slug: routeSlug } = Astro.props;
 const movie = data.movie;
@@ -27,13 +23,11 @@ const slug = routeSlug ?? movie.slug;
 const episodes = data.episodes;
 const viewFormatter = new Intl.NumberFormat("vi-VN");
 
-const heroSource = movie.thumb_url ?? movie.poster_url;
-const heroImage = wsrv(heroSource, imagePresets.hero.base);
-const heroSrcSet = wsrvSrcSet(heroSource, imagePresets.hero.srcset);
+const heroPreset = imagePresets.hero;
+const posterPreset = imagePresets.poster;
 
-const posterSource = movie.poster_url ?? movie.thumb_url;
-const posterImage = wsrv(posterSource, imagePresets.poster.base);
-const posterSrcSet = wsrvSrcSet(posterSource, imagePresets.poster.srcset);
+const heroSource = resolveImageUrl(movie.thumb_url ?? movie.poster_url);
+const posterSource = resolveImageUrl(movie.poster_url ?? movie.thumb_url);
 ---
 
 <div class="container mx-auto py-10 space-y-10">
@@ -43,15 +37,18 @@ const posterSrcSet = wsrvSrcSet(posterSource, imagePresets.poster.srcset);
     >
         <div class="absolute inset-0">
             {
-                heroImage ? (
-                    <img
+                heroSource ? (
+                    <Image
                         loading="eager"
-                        src={heroImage}
-                        srcset={heroSrcSet ?? undefined}
-                        sizes={imagePresets.hero.sizes}
+                        fetchpriority="high"
+                        src={heroSource}
                         alt={movie.name}
-                        width="1200"
-                        height="675"
+                        width={heroPreset.dimension.width}
+                        height={heroPreset.dimension.height}
+                        widths={heroPreset.widths}
+                        sizes={heroPreset.sizes}
+                        quality={heroPreset.quality}
+                        fit="cover"
                         class="h-full w-full object-cover"
                         transition:name={`poster-${slug}`}
                     />
@@ -72,15 +69,18 @@ const posterSrcSet = wsrvSrcSet(posterSource, imagePresets.poster.srcset);
                 >
                     <CardContent className="p-0">
                         {
-                            posterImage ? (
-                                <img
+                            posterSource ? (
+                                <Image
                                     loading="eager"
-                                    src={posterImage}
-                                    srcset={posterSrcSet ?? undefined}
-                                    sizes="(max-width: 768px) 60vw, 320px"
+                                    fetchpriority="high"
+                                    src={posterSource}
                                     alt={movie.name}
-                                    width="480"
-                                    height="720"
+                                    width={posterPreset.dimension.width}
+                                    height={posterPreset.dimension.height}
+                                    widths={posterPreset.widths}
+                                    sizes="(max-width: 768px) 60vw, 320px"
+                                    quality={posterPreset.quality}
+                                    fit="cover"
                                     transition:name={`image-${slug}`}
                                     class="h-full w-full object-cover"
                                 />

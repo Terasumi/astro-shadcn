@@ -1,5 +1,6 @@
 ---
-import { wsrv, wsrvSrcSet } from "@/lib/wsrv";
+import { Image } from "astro:assets";
+import { resolveImageUrl } from "@/lib/wsrv";
 import { formatYear, getSectionData } from "./section-utils";
 
 const { config } = Astro.props;
@@ -45,34 +46,8 @@ const section = await getSectionData(config);
                             ? item.thumb_url || item.poster_url
                             : item.poster_url || item.thumb_url;
 
-                    const imageSrc = imageUrl
-                        ? wsrv(imageUrl, {
-                              width: baseWidth,
-                              height: baseHeight,
-                              withoutEnlargement: true,
-                              quality: 85,
-                          })
-                        : null;
-
-                    const imageSrcSet = imageUrl
-                        ? wsrvSrcSet(imageUrl, [
-                              {
-                                  width: baseWidth,
-                                  height: baseHeight,
-                                  withoutEnlargement: true,
-                                  quality: 85,
-                                  descriptor: "1x",
-                              },
-                              {
-                                  width: baseWidth,
-                                  height: baseHeight,
-                                  dpr: 2,
-                                  withoutEnlargement: true,
-                                  quality: 70,
-                                  descriptor: "2x",
-                              },
-                          ])
-                        : null;
+                    const imageSource = resolveImageUrl(imageUrl);
+                    const widthCandidates = Array.from(new Set([baseWidth, baseWidth * 2]));
 
                     const sizes = isLandscape
                         ? "(max-width: 768px) 80vw, 350px"
@@ -94,16 +69,18 @@ const section = await getSectionData(config);
                                             : "aspect-[3/4]"
                                     } relative`}
                                 >
-                                    {imageSrc ? (
-                                        <img
-                                            src={imageSrc}
-                                            srcset={imageSrcSet ?? undefined}
+                                    {imageSource ? (
+                                        <Image
+                                            src={imageSource}
                                             alt={item.name}
                                             loading="lazy"
                                             decoding="async"
                                             width={baseWidth}
                                             height={baseHeight}
+                                            widths={widthCandidates}
                                             sizes={sizes}
+                                            quality={85}
+                                            fit="cover"
                                             transition:name={`${
                                                 section.layout === "landscape"
                                                     ? "poster"

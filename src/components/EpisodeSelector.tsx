@@ -29,6 +29,7 @@ type Episode = {
         slug: string;
         name: string;
         link_embed: string;
+        link_m3u8?: string;
     }[];
 };
 
@@ -57,7 +58,8 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({ episodes }) => {
   const [selectedEpisode, setSelectedEpisode] = useState<{
     id: string;
     label: string;
-    server: string;
+    linkEmbed: string;
+    linkM3u8?: string;
   } | null>(null);
   const [query, setQuery] = useState<string>("");
   const [pageByServer, setPageByServer] = useState<Record<string, number>>({});
@@ -98,10 +100,17 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({ episodes }) => {
     [episodes],
   );
 
-  const handleEpisodeSelect = (id: string, label: string, server: string) => {
-    setSelectedEpisode({ id, label, server });
+  const handleEpisodeSelect = (
+    id: string,
+    label: string,
+    linkEmbed: string,
+    linkM3u8?: string,
+  ) => {
+    setSelectedEpisode({ id, label, linkEmbed, linkM3u8 });
     window.dispatchEvent(
-      new CustomEvent("episodeSelected", { detail: { ep: id, server } }),
+      new CustomEvent("episodeSelected", {
+        detail: { ep: id, linkEmbed, linkM3u8 },
+      }),
     );
   };
 
@@ -284,6 +293,7 @@ const EpisodeSelector: React.FC<EpisodeSelectorProps> = ({ episodes }) => {
                               serverData.slug,
                               serverData.name,
                               serverData.link_embed,
+                              serverData.link_m3u8,
                             )
                           }
                           className={cn(
